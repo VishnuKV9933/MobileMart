@@ -1,0 +1,264 @@
+<main id="main" class="main">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Coupon Management</h5>
+
+      <!-- Vertical Pills Tabs -->
+      <div class="d-flex align-items-start">
+        <div
+          class="nav flex-column nav-pills me-3"
+          id="v-pills-tab"
+          role="tablist"
+          aria-orientation="vertical"
+        >
+          <button
+            class="nav-link active"
+            id="v-pills-home-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-home"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-home"
+            aria-selected="true"
+          >Add Coupon</button>
+          <button
+            class="nav-link"
+            id="v-pills-profile-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-profile"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-profile"
+            aria-selected="false"
+          >Delete Coupon</button>
+        </div>
+
+        <div class="tab-content" id="v-pills-tabContent">
+          <div
+            class="tab-pane fade show active"
+            id="v-pills-home"
+            role="tabpanel"
+            aria-labelledby="v-pills-home-tab"
+          >
+
+            {{! ----------------------------------------------------------------------------------------------------------------------------------------------- }}
+             
+
+
+            <form action="/admin/add-coopon" method="post">
+              <div class="form-group row">
+              
+                <label for="inputEmail3" class="col-sm-5 col-form-label">Coupon
+                  Code</label>
+                <div class="col-sm-7">
+                  <input
+                    type=""
+                    class="form-control"
+                    id="inputEmail3"
+                    name="code"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-5 col-form-label">Discription</label>
+                <div class="col-sm-7">
+                  <input
+                    type=""
+                    class="form-control"
+                    id="inputEmail3"
+                    name="discription"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label
+                  for="inputEmail3"
+                  class="col-sm-5 col-form-label"
+                >Percentage</label>
+                <div class="col-sm-7">
+                  <input
+                    type=""
+                    class="form-control"
+                    id="inputEmail3"
+                    name="percentage"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label
+                  for="inputPassword3"
+                  class="col-sm-5 col-form-label"
+                >Expiry Date</label>
+                <div class="col-sm-7">
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="inputPassword3"
+                    name="expiry"
+                    required
+                  />
+                </div>
+              </div>
+              {{!  }}
+
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <button
+                    type="submit"
+                    class="btn btn-outline-primary float-left" >Submit</button>
+                    <div class="col d-flex justify-content-center mt-5">
+                     {{#if globelResponse.status}}
+                 <p style="color: rgb(9, 248, 125);">{{globelResponse.message}}</p>
+                {{else}}
+                <p style="color: red;"  >{{globelResponse.message}}</p>
+                {{/if}}
+                </div>
+                </div>
+                
+              </div>
+            </form>
+            {{! ------------------------------------------------------------------------------------------------------------------------------------------------ }}
+
+          </div>
+
+          <div
+            class="tab-pane fade"
+            id="v-pills-profile"
+            role="tabpanel"
+            aria-labelledby="v-pills-profile-tab"
+          >
+{{!-- ------------------------------------------------------------------------------------------------------------------------------------------------ --}}
+           
+           <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Sl No</th>
+                  <th scope="col">Coupon Code</th>
+                  {{!-- <th scope="col">Discription</th> --}}
+                   <th scope="col">Discount %</th>
+                  <th scope="col">Expiry Date</th>
+                  <th scope="col">Option</th>
+                </tr>
+              </thead>
+              <tbody>
+                 {{#each coopons}}
+                <tr>
+                 
+                  <th scope="row">1</th>
+                  <td>{{this.code}}</td>
+                  {{!-- <td>{{this.discription}}</td> --}}
+                  <td>{{this.percentage}}</td>
+
+                  <td>{{this.expiry}}</td>
+                <td>    <a href="/admin/delete-coupon/{{this._id}}"
+                    type="submit"
+                    class="btn btn-outline-primary float-right"  >Delete</a></td>
+                </tr>
+                {{/each}}
+
+              </tbody>
+            </table> 
+           
+            {{!-- <form action="/admin/add-coopon" method="post">
+              <div class="form-group row">
+                {{#if globelResponse.status}}
+
+                <p></p>
+                {{else}}
+                <p style="color: red;" >{{globelResponse.message}}</p>
+                {{/if}}
+                <label for="inputEmail3" class="col-sm-5 col-form-label">Coopon
+                  Code</label>
+                <div class="col-sm-7">
+                  <input
+                    type=""
+                    class="form-control"
+                    id="inputEmail3"
+                    name="code"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-5 col-form-label">Discription</label>
+                <div class="col-sm-7">
+                  <input
+                    type=""
+                    class="form-control"
+                    id="inputEmail3"
+                    name="discription"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label
+                  for="inputEmail3"
+                  class="col-sm-5 col-form-label"
+                >Percentage</label>
+                <div class="col-sm-7">
+                  <input
+                    type=""
+                    class="form-control"
+                    id="inputEmail3"
+                    name="percentage"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label
+                  for="inputPassword3"
+                  class="col-sm-5 col-form-label"
+                >Expiry Date</label>
+                <div class="col-sm-7">
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="inputPassword3"
+                    name="expiry"
+                    required
+                  />
+                </div>
+              </div>
+              {{!  }}
+
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <button
+                    type="submit"
+                    class="btn btn-outline-primary float-right" >Submit</button>
+                </div>
+              </div>
+            </form> --}}
+{{!-- ----------------------------------------------------------------------------------------------------------------------------------------------------- --}}
+          </div>
+
+          <div
+            class="tab-pane fade"
+            id="v-pills-messages"
+            role="tabpanel"
+            aria-labelledby="v-pills-messages-tab"
+          >
+            Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi
+            debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis
+            magnam. Officiis accusamus impedit molestias nostrum veniam. Qui
+            amet ipsum iure. Dignissimos fuga tempore dolor.
+          </div>
+        </div>
+      </div>
+      <!-- End Vertical Pills Tabs -->
+
+    </div>
+  </div>
+
+</main>

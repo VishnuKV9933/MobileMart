@@ -1,0 +1,99 @@
+<main id="main" class="main">  
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Order Details</h5>
+
+              <!-- Table with hoverable rows -->
+              <table class="table table-hover" id="myTable">
+                <thead class="table-dark" >
+                  <tr class="text-white">
+                    <th scope="col">Slno</th>
+                    <th scope="col" class="text-center">Product</th>
+                    {{!-- <th scope="col">Product Id</th> --}}
+                    <th scope="col">Product Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each products}}
+                  <tr class="" style="justify-content: center;">
+                    <td>{{indexing @index}}</td>
+                    <td class=""><img style="width:30px ;height:30px" src="/images/product/{{this.product.img.[0]}}" alt="" ><br>
+                    <h7 class="" >{{this.product.name}}</h7><br>
+                    {{!-- <h7 class="" >{{this.product.Specs}}</h7><br>  --}}
+                    <h7 class="">{{this.product.color}}</h7>
+                    </td>
+                    {{!-- <td>{{this.product._id}}<td> --}}
+                    <td style="">Rs.{{this.product.price}}</td>
+                    <td>{{this.quantity}}</td>
+                    <td>Rs.{{this.total}}</td>
+ 
+                   
+                    
+                  </tr>
+                 {{/each}}  
+
+                </tbody>
+              </table>
+        
+        {{#if order.returnConfirmStatus}}
+
+
+
+                <a href="/admin/refund/{{order._id}}" class="btn btn-secondary">Refund Confirmed</a>
+                 
+                 {{#unless order.addTowallet}}
+                <a href="/admin/wallet/{{order._id}}" class="btn btn-secondary">Add amount to wallet</a>
+                  {{/unless}}
+
+          {{else}}
+
+
+
+      <div class="card">
+            <div class="card-body">
+              
+              <!-- Vertically centered Modal -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+                Change Status
+              </button>
+              <div class="modal fade" id="verticalycentered" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Change Status</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    
+
+                <div class="modal-body">
+                        <select name="" id="changestatus" style="width:100%;height: 30px;">
+                            {{!-- <option>order confirmed</option> --}}
+                            <option>Shipped</option>
+                            <option>Delivered</option>
+                        </select>
+                    </div>
+
+                   
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" onclick="changeStatus('{{orderId}}')" class="btn btn-primary"  data-bs-dismiss="modal">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Vertically centered Modal-->
+
+            </div>
+          </div>
+             
+             {{/if}}
+
+
+
+            </div>
+
+
+           <!-- Button trigger modal -->
+
+        </main>

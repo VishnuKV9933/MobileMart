@@ -1,0 +1,223 @@
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Charts / ECharts - NiceAdmin Bootstrap Template</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets copy/img/favicon.png" rel="icon">
+  <link href="assets copy/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets copy/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets copy/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets copy/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets copy/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets copy/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets copy/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets copy/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets copy/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.4.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+  <main id="main" class="main">
+
+
+
+
+
+{{!-- ---------------------------------------------------------------------BODY-------------------------------------------------------------------------------- --}}
+ <div class="row">
+        <div class="col-lg-12 d-flex ">
+            <div class=" card col-sm-12 col-lg-5">
+              <div class="card-body">
+              <h5 class="card-title">Delivery Details</h5>
+
+              <!-- Default List group -->
+              <ul class="list-group">
+                <li class="list-group-item">Name    :{{order.deliveryDetails.name}}</li>
+                <li class="list-group-item">Mobile  :{{order.deliveryDetails.mobile}}</li>
+                <li class="list-group-item">Address :{{order.deliveryDetails.address}}</li>
+                <li class="list-group-item">Pin     :{{order.deliveryDetails.Pin}}</li>
+              
+              </ul><!-- End Default List group -->
+
+            </div>
+          </div>
+
+
+           <div class="card sm-12 col-lg-5 ml-5">
+            <div class="card-body">
+              <h5 class="card-title">Order Details</h5>
+
+              <!-- Default List group -->
+              <ul class="list-group">
+                <li class="list-group-item">PaymentMethod    :{{order.paymentMethod}}</li>
+                <li class="list-group-item">Date  :{{order.date}}</li>
+                <li class="list-group-item">Total Amount :{{order.totalAmount}}</li>
+                <li class="list-group-item">Reason     :{{order.reason}}</li>
+              </ul><!-- End Default List group -->
+
+            </div>
+          </div>
+
+        </div>
+ </div>
+
+<div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Return Orders  </h5>
+
+              <!-- Table with stripped rows -->
+              <table class="table">
+                <thead class="table-primary" >
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                     <th scope="col">Image</th>
+                    <th scope="col">Quantity</th>
+                      <th scope="col">Price</th>
+               
+                  </tr>
+                </thead>
+                <tbody> 
+                  {{#each returnOrders}}
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>{{this.product.name}}</td>
+                    <td>
+                      <img style="width:40px ;height:40px" src="/images/product/{{this.product.img.[0]}}" alt="" >
+                    </td>
+                    <td>{{this.quantity}}</td>
+                    
+                   <td>Rs.{{this.product.price}}</td>
+
+                   
+                    {{/each}}
+                  </tr>
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
+                Change Status
+              </button>
+            </div>
+          </div>
+              
+              <!-- Vertically centered Modal -->
+              
+              <div class="modal fade" id="verticalycentered" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Change Status</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    
+
+                <div class="modal-body">
+                        <select name="" id="changeReturnstatus" style="width:100%;height: 30px;">
+                        
+                           
+                            <option>Return confirmed</option>
+                        </select>
+                    </div>
+
+                   
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" onclick="changeReturnStatus('{{order.orderId}}')" class="btn btn-primary"  data-bs-dismiss="modal">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Vertically centered Modal-->
+
+            </div>
+          </div>
+             
+
+
+            </div>
+
+
+
+
+ <div class="card">
+            <div class="card-body">
+
+  
+{{!-- 
+<div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Return Orders  </h5>
+
+              <!-- Table with stripped rows -->
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Delivery Method</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each returnOrders}}
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>{{this.deliveryDetails.name}}</td>
+                    <td>{{this.paymentMethod}}</td>
+                    <td>{{this.totalAmount}}</td>
+                    <td>
+                       <button type="button" class="btn btn-outline-secondary">More</button>
+                    </td>
+                    {{/each}}
+                  </tr>
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+
+            </div>
+          </div> --}}
+
+
+
+{{!-- ---------------------------------------------------------------------BODY-------------------------------------------------------------------------------- --}}
+
+
+
+  </main><!-- End #main -->
+
+  
+  <!-- Vendor JS Files -->
+  <script src="assets copy/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets copy/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets copy/vendor/chart.js/chart.min.js"></script>
+  <script src="assets copy/vendor/echarts/echarts.min.js"></script>
+  <script src="assets copy/vendor/quill/quill.min.js"></script>
+  <script src="assets copy/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets copy/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets copy/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets copy/js/main.js"></script>
+
+</body>
+
+</html>

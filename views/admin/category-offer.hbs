@@ -1,0 +1,216 @@
+<div id="main">
+
+    <div class="card">
+        <div class="card-body">
+
+
+            <!-- Bordered Tabs Justified -->
+            <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home"
+                        aria-selected="true"> Brands With Offer</button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile"
+                        aria-selected="false">Add Brand Offer</button>
+                </li>
+               
+            </ul>
+
+
+
+
+            <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+
+                <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel"
+                    aria-labelledby="home-tab">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Table with hoverable rows -->
+                            <table class="table table-hover" id="dailyReport">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Sl No</th>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Brand</th>
+                                        <th  scope="col">Offer Percent</th>
+                                        <th  scope="col">Options</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     {{#each brands}}
+                                {{#if this.brandOffer}}
+                                    <tr>
+                                     {{!-- <th scope="row"><input type="checkbox" /></th> --}}
+
+                                        <td class="tm-product-name">{{indexing @index}}</td>
+                                        <td class="tm-product-name"><img style="width: 40px;" src="/images/product/{{this.img.[0]}}"></td>
+                                        <td class="tm-product-name">{{this.brand}}</td>
+                                        <td class="tm-product-name">{{this.brandOfferPercent}}</td>
+                                           <td >
+                                            <button type="button" data-toggle="modal" data-target="#edit{{this._id}}" class="btn btn-outline-primary">Edit Offer</button></td>
+                                             <td >
+                                            <a href="/admin/delete-category-offer/{{this._id}}" type="button"  class="btn btn-outline-danger">Delete Offer</a></td>
+                                    </tr>
+                                {{/if}}
+                                 {{/each}} 
+
+
+
+
+
+
+
+
+
+
+
+                                <tr>
+                                    <td>
+                                        {{!-- <h5 class="text-center"><strong>Total Sale Amount </strong>:{{dailyTotalAmount.[0].dailyTotalAmount}}</h5> --}}
+                                    </td>
+                                </tr>    
+                                </tbody>
+                                {{!-- <button class="btn btn-outline-success" onclick="dailyReportPDF()"><i class="bi bi-download"></i>  Download</button> --}}
+                            </table>
+                            <!-- End Table with hoverable rows -->
+                        </div>
+                    </div>
+                </div>
+
+<!-- Button trigger modal -->
+
+{{#each brands}}
+
+<!-- Modal -->
+<div class="modal fade" id="{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+    
+<div>
+    <form action="/admin/add-categery-offer" method="post">
+        <label>Add offer percent</label>
+        <input name="brandId" value="{{this._id}}" hidden >
+        <input name="brandOffer" >
+
+       
+</div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="submit" class="btn btn-primary" >Add offer</button>
+       </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
+
+
+
+
+                <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel"
+                    aria-labelledby="profile-tab">
+                    <div class="card">
+                        <div class="card-body">  
+                            <!-- Table with hoverable rows -->
+                            <table class="table table-hover" id="monthlyReport">
+                                <thead>
+                                    <tr><th scope="col-6">Sl No</th>
+                                        <th scope="col-3">Image</th>
+                                        <th scope="col-1">Brand</th>
+                                        <th scope="col-2">Optons</th>
+                                      
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                               
+                                 {{#each brands}}
+                                   {{#unless this.brandOffer}}
+                                    <tr>
+                                     {{!-- <th scope="row"><input type="checkbox" /></th> --}}
+
+                                        <td class="tm-product-name">{{indexing @index}}</td>
+                                          <td class="tm-product-name"><img style="width: 40px;" src="/images/product/{{this.img.[0]}}"></td>
+                                        <td class="tm-product-name">{{this.brand}}</td>
+                                      
+                                        <td >
+                                            <button type="button" data-toggle="modal" data-target="#{{this._id}}" class="btn btn-outline-primary">Add Offer</button></td>
+                                    </tr>
+                                    {{/unless}}
+                                 {{/each}} 
+
+                                </tbody>
+                                {{!-- <button class="btn btn-outline-success" onclick="monthlyReportPDF()"><i class="bi bi-download"></i>  Download</button> --}}
+                            </table>
+                        </div>
+                    </div>              
+                </div>
+
+
+
+
+
+
+{{#each brands}}
+
+<!-- Modal -->
+<div class="modal fade" id="edit{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+    
+<div>
+    <form action="/admin/edit-categery-offer" method="post">
+        <label>Add offer percent</label>
+        <input name="brandId" value="{{this._id}}" hidden >
+        <input value="{{this.brandOfferPercent}}" name="brandOffer" >
+
+       
+</div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="submit" class="btn btn-primary" >Edit offer</button>
+       </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
+
+
+
+
+
+                
+            </div><!-- End Bordered Tabs Justified -->
+
+        </div>
+    </div>
+
+
+
+
+</div>
+
+

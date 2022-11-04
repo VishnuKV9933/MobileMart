@@ -1,0 +1,40 @@
+<main id="main" class="main"> 
+<h3 >CategoryManagement</h3>
+<a href="/admin/addBrand"  class="btn btn-primary mt-5">Add Brand</a>
+
+
+<table class="table   mt-5">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Brand</th>
+      <th scope="col">Image</th>
+      <th scope="col">Options</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+            {{#each brand}}
+
+    <tr>
+      <th scope="row">{{indexing @index}}</th>
+      
+      <td>{{this.brand}}</td>
+       <td>
+        <img style="width:40px ;height:40px " src="/images/product/{{this.img.[0]}}" alt="Product image" class="product-image">
+        </td>
+       <td>
+        <a href="/admin/editBrand/{{this._id}}" class="btn btn-secondary"  >Edit</a>
+       </td>
+
+        <td>
+        <a href="/admin/deleteBrand/{{this._id}}" onclick="return confirm('Are you sure you want to delete {{this.brand}}')" class="btn btn-danger">Delete</a>
+       </td>
+    </tr>
+          {{/each}}
+
+  </tbody>
+</table>
+
+</main>

@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- molla/index-12.html  22 Nov 2019 09:58:43 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Molla - Bootstrap eCommerce Template</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/icons/site.html">
+    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/demos/demo-12.css">
+</head>
+
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="assets/js/jquery.waypoints.min.js"></script>
+    <script src="assets/js/superfish.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <script src="assets/js/bootstrap-input-spinner.js"></script>
+    <script src="assets/js/jquery.magnific-popup.min.js"></script>
+    
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/demos/demo-12.js"></script>
+
+
+
+{{!-- ----------------------------------------------------vvvvvvvvv----------------------------------------------------------------- --}}
+
+        <header class="header header-intro-clearance header-4">
+
+
+            <div class="header-middle">
+                <div class="container">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggler">
+                            <span class="sr-only">Toggle mobile menu</span>
+                            <i class="icon-bars"></i>
+                        </button>
+                        
+                        <a href="index.html" class="logo">
+
+                           <a href="/"> <h4>Mobile Mart</h4></a> 
+                          
+                        </a>
+                    </div><!-- End .header-left -->
+
+             
+{{!-- ----------------------------------------------------search----------------------------------------------------------------- --}}
+
+
+                    <div class="col-5 " style="margin: auto;float: inline-end;">
+                <div class="header-search header-search-extended header-search-visible d-none d-lg-block"
+                    style="z-index:4;margin:0px !important;">
+                    <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                    <div class="header-search-wrapper mx-auto col-12 search-wrapper-wide"
+                        style=" background-color: white; ">
+                        <label for="q" class="sr-only">Search</label>
+                        <button class="btn  " type="submit"><i class="icon-search"></i></button>
+                        <input class="form-control" name="q" id="q"
+                            style="color: black; background-color:white; border-radius: 40px !important; "
+                            onkeyup="sendData(this)" placeholder="Search product ..." required="">
+                    </div><!-- End .header-search-wrapper -->
+                </div><!-- End .header-search -->
+                <section
+                    style="border-radius: 5px 5px 10px 11px; position: absolute; background-color:white; width: 95.7%; margin-top: -45px; z-index: 3; margin-left: 1px; flex-direction: column; overflow: hidden;">
+                    <div id="searchResults"
+                        style="margin-top: 20px; border: solid #e0d9d9 1px; margin-right: -16px; padding-top: 30px; overflow-y: scroll; display: block; max-height: 400px; display: none;">
+                    </div>
+                </section>
+            </div><!-- End .header-center -->
+
+{{!-- ----------------------------------------------------search----------------------------------------------------------------- --}}
+                  
+
+                    <div class="header-right">
+                          {{!-- <div class="float-right">login</div> --}}
+                          {{#if userLogged}}
+                              <a class="d-none d-lg-block" href="/logout">Log out </a>
+                              {{else}} 
+                                <a class="d-none d-lg-block" href="/login">Sign in / Sign up</a>                           
+                            {{/if}}
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <ul class="compare-products">
+                                    <li class="compare-product">
+                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        <h4 class="compare-product-title"><a href="product.html">Blue Night Dress</a></h4>
+                                    </li>
+                                    <li class="compare-product">
+                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        <h4 class="compare-product-title"><a href="product.html">White Long Skirt</a></h4>
+                                    </li>
+                                </ul>
+
+                                <div class="compare-actions">
+                                    <a href="#" class="action-link">Clear All</a>
+                                    <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i class="icon-long-arrow-right"></i></a>
+                                </div>
+                            </div><!-- End .dropdown-menu -->
+                        </div><!-- End .compare-dropdown -->
+
+                        <div class="wishlist d-none d-lg-block mt-2">
+                            <a href="/wishlist" title="Wishlist">
+                                <div class="icon">
+                                    <i class="icon-heart-o"></i>
+                                    {{#if listCount}}
+                                    <span class="wishlist-count badge">{{listCount}}</span>
+                                    {{/if }}
+                                </div>
+                                <p>Wishlist</p>
+                            </a>
+                        </div><!-- End .compare-dropdown -->
+
+                         <div class="dropdown cart-dropdown d-none d-lg-block mt-2">
+                            <a href="/cart" class="dropdown-toggle" role="button">
+                                <div class="icon">
+                                    <i class="icon-shopping-cart"></i>
+                                    {{#if cartCount}}
+                                    <span id="cart-count" class="cart-count">{{cartCount}}</span>
+                                    {{else}}
+                                    {{!-- <span id="cart-count" class="cart-count">0</span> --}}
+
+                                    {{/if}}
+                                </div>
+                                <p>Cart</p>
+                            </a>
+                        </div><!-- End .compare-dropdown -->  
+
+                        
+                        </div><!-- End .cart-dropdown -->
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-middle -->
+
+            <div class="header-bottom sticky-header">
+                <div class="container">
+                    <div class="header-left">
+                       
+
+
+
+
+
+
+
+                    </div><!-- End .header-left -->
+
+                    <div class="header-center">
+                        <nav class="main-nav">
+                            <ul class="menu sf-arrows">
+                                <li class="megamenu-container active">
+                                    <a href="/" class="sf-with-ul">Home</a>
+
+                                 
+                                </li>
+                                <li>
+                                    <a href="/orders" class="sf-with-ul">Orders</a>
+
+                                   
+                                </li>
+                                <li>
+                                    <a href="/view-products/?page=1" class="sf-with-ul">Product</a>
+
+                                  
+                                </li>
+                                <li>
+                                    <a href="/login?page={{person}}" class="sf-with-ul">Pages</a>
+
+                                   
+                                </li>
+                                <li>
+                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+
+                                    
+                                </li>
+                                <li>
+                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+
+                                   
+                                </li>
+                            </ul><!-- End .menu -->
+                        </nav><!-- End .main-nav -->
+                    </div><!-- End .header-center -->
+
+                    <div class="header-right">
+                                                        <div class="header-right">
+
+                        <ul class="top-menu">
+                            <li>
+                                <a href="#">Links</a>
+                                <ul>
+                                    <li>
+                                        <div c>
+                                            <a href="/user-account">Account</a>
+                                            <div class="header-menu">
+                                                <ul>
+                                                    <li><a href="#">Eur</a></li>
+                                                    <li><a href="#">Usd</a></li>
+                                                </ul>
+                                            </div><!-- End .header-menu -->
+                                        </div>
+                                    </li>
+                                    <li>
+                                        
+
+
+
+
+
+
+
+
+
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul><!-- End .top-menu -->
+                    </div><!-- End .header-right -->
+                    </div>
+                </div><!-- End .container -->
+            </div><!-- End .header-bottom -->
+        </header><!-- End .header -->
+

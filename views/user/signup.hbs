@@ -1,0 +1,179 @@
+
+
+
+
+
+
+<section class="vh-100" style="background-color: #508bfc;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+            <form action="/signup" method="post">
+
+
+            <h3 class="mb-5">Sign up</h3>
+            
+            {{#if permissionMessage}}
+
+            <p style="color:red;">{{permissionMessage}}</p>
+
+            {{/if }}
+
+
+
+             <div class="form-outline mb-4">
+              <input type="text" onkeyup="validateName()" id="name" class="form-control form-control-lg" name="name" required/ >
+              <label class="form-label">Name</label>
+               <p class="text-danger" id="errorName"><p>
+            </div>
+
+
+            <div class="form-outline mb-4">
+              <input type="email" onkeyup="validateEmail()"  id="email" class="form-control form-control-lg" name="email" required />
+              <label class="form-label" for="typeEmailX-2">Email</label>
+               <p class="text-danger" id="errorEmail"></p>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="password" onkeyup="validatePassword()" id="password" class="form-control form-control-lg" name="password" required/>
+              <label class="form-label" for="typePasswordX-2">Password</label>
+              <p class="text-danger" id="errorPassword"></p> 
+            </div>
+            
+            <div class="form-outline mb-4">
+              <input type="tel" id="mobile" onkeyup="validateMobile()" class="form-control form-control-lg" name="mobile" required/>
+              <label class="form-label" for="typePasswordX-2">Mobile</label>
+                            <p class="text-danger" id="errorMobile"></p> 
+
+            </div>
+            <!-- Checkbox -->
+            <div class="form-check d-flex justify-content-start mb-4">
+              <a href="/login">Already have an account?</a>
+            </div>
+                                          
+            <button class="btn btn-primary btn-lg btn-block" id="submitbt" onclick="return validateForm()" type="submit">Sign Up</button>
+             <p class="text-danger" id="errorSubmit"></p> 
+            <hr class="my-4">
+            </form>
+
+            {{!-- <button class="btn btn-lg btn-block btn-primary" style="background-color: #dd4b39;"
+              type="submit"><i class="fab fa-google me-2"></i> Sign in with google</button>
+            <button class="btn btn-lg btn-block btn-primary mb-2" style="background-color: #3b5998;"
+              type="submit"><i class="fab fa-facebook-f me-2"></i>Sign in with facebook</button> --}}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<script>
+    let nameErrorEl = document.getElementById('errorName');  
+    let emailErrorEl = document.getElementById('errorEmail'); 
+    let passwordErrorEl =  document.getElementById('errorPassword');
+    let mobileErrorEl =  document.getElementById('errorMobile');
+    let submitErrorEl = document.getElementById('errorSubmit');
+  function validateName(){
+    let nameEl = document.getElementById('name').value;
+    console.log(nameEl)
+
+    if(nameEl.length==0){
+      nameErrorEl.innerHTML="name required"
+      return false
+    }
+    
+    if(!nameEl.match(/^[A-Za-z]*$/)){
+            nameErrorEl.innerHTML="enter a valid name"
+          return false
+    }if(nameEl.length < 3)
+                   nameErrorEl.innerHTML="minimum 3 letters required"
+
+    else{
+            nameErrorEl.innerHTML=" "
+          return true
+    }
+  }
+
+    function validateEmail(){
+      
+          let emailEl = document.getElementById('email').value;
+
+          if(emailEl.length==0){
+            emailErrorEl.innerHTML="email is requird"
+            return false
+          }
+
+          if (!emailEl.match(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/)) {
+                emailErrorEl.innerHTML = "email is  invalid";
+                return false;
+            }else{
+              emailErrorEl.innerHTML=" "
+              return true
+            }
+    }
+
+          function validatePassword(){
+          let passwordEl = document.getElementById('password').value;
+
+          if(passwordEl.length==0){
+            passwordErrorEl.innerHTML="password is required"
+            return false
+          }
+        if(passwordEl.length < 5){
+          passwordErrorEl.innerHTML="minumum 5 charecters required"
+          return false
+
+        }    else{
+              passwordErrorEl.innerHTML=" "
+              return true
+            }
+    }
+
+    function validateMobile(){
+        let moblieEl= document.getElementById('mobile').value;
+         if(moblieEl.length !== 10){
+          mobileErrorEl.innerHTML="enter avalid number"
+          return false 
+
+        } if(!moblieEl.match(/^[0-9]*$/)){
+            mobileErrorEl.innerHTML="enter avalid number"
+          return false
+    }
+
+           else{
+              mobileErrorEl.innerHTML=" "
+              return true
+            }
+
+    }
+
+function validateForm(){
+
+    if(!validateEmail()||!validateName()||!validatePassword()||!validateMobile()){
+        submitErrorEl.style.display='block';
+        submitErrorEl.innerHTML='Please fix error';
+        setTimeout(function(){submitErrorEl.style.display='none';},3000);
+        return false;
+    }else{ 
+       submitErrorEl.innerHTML='Message sent.';
+       return true
+       }
+}
+</script>
+{{!-- 
+function validateForm(){
+
+    if(!validateEmail()||!validateName()||!validatePassword()||!validateMobile()){
+        submitErrorEl.style.display='block';
+        submitErrorEl.innerHTML='Please fix error';
+        setTimeout(function(){submitErrorEl.style.display='none';},3000);
+        return false;
+    }else{ 
+       submitErrorEl.innerHTML='Message sent.';
+       return true
+  }  --}}

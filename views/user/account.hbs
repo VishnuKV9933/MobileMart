@@ -1,0 +1,170 @@
+
+<main class="main">
+        	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        	
+				<div class="container">
+        			<h3 class="page-title"> {{user.name}}</h1>
+        		</div><!-- End .container -->
+				<div class="container">
+        			<h3 class="page-title"> {{user.mobile}}</h1>
+        		</div><!-- End .container -->
+				<div class="container">
+        			<h3 class="page-title"> {{user.email}}</h1>
+        		</div><!-- End .container -->
+				<div class="container">
+        			<h3 class="page-title">MY WALLET:RS.{{user.walletAmount}}</h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+                {{!-- <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                    </ol>
+                </div><!-- End .container --> --}}
+            </nav><!-- End .breadcrumb-nav -->
+                      <div style="background-image:url(/bgimg/empty-shopping-trolley-mobile-phone-dark-blue-background-shop-basket-products-online-shopping-concept_343283-2777.jpg);background-repeat:no-repeat;background-size:cover " class="container">
+						
+
+                    <div class="cta mb-5" >
+	                	<div class="row">
+	                		<div  class="col-lg-6">
+		            			<div class="cta-wrapper cta-text text-center">
+		            				<h3 style="color: white"  class="cta-title">User Details</h3><!-- End .cta-title -->
+
+							
+									<a href="/edit-userdetails" class="btn btn-danger btn-rounded"><span>Edit</span><i class="icon-long-arrow-right"></i></a>
+		            			</div><!-- End .cta-wrapper -->
+	                		</div><!-- End .col-lg-6 -->
+
+                            <div class="col-lg-6">
+		            			<div class="cta-wrapper cta-text text-center">
+		            				<h3 style="color: white" class="cta-title">My Orders</h3><!-- End .cta-title -->
+
+									<a href="/orders" class="btn btn-danger btn-rounded"><span>See Orders</span><i class="icon-long-arrow-right"></i></a>
+		            			</div><!-- End .cta-wrapper -->
+	                		</div><!-- End .col-lg-6 -->
+
+	                		
+	                	</div><!-- End .row -->
+                	</div><!-- End .cta -->
+
+                    <div class="cta mb-5" >
+	                	<div class="row">
+	                		<div class="col-lg-6">
+		            			<div class="cta-wrapper cta-text text-center">
+		            				<h3 style="color: white"  class="cta-title">My Wishlist</h3><!-- End .cta-title -->
+
+							
+									<a href="/wishlist" class="btn btn-danger btn-rounded"><span>Click Here</span><i class="icon-long-arrow-right"></i></a>
+		            			</div><!-- End .cta-wrapper -->
+	                		</div><!-- End .col-lg-6 -->
+
+                            <div class="col-lg-6">
+		            			<div class="cta-wrapper cta-text text-center">
+		            				<h3 style="color: white"  class="cta-title">Change Password</h3><!-- End .cta-title -->
+
+							
+									<a href="/change-password" class="btn btn-danger btn-rounded"><span>Change</span><i class="icon-long-arrow-right"></i></a>
+		            			</div><!-- End .cta-wrapper -->
+	                		</div><!-- End .col-lg-6 -->
+
+	                		
+	                	</div><!-- End .row -->
+                	</div><!-- End .cta -->
+					<div class="cta cta-separator  mb-5" >
+	                	<div class="row">
+	                		<div class="col-lg-6">
+		            			<div class="cta-wrapper cta-text text-center">
+		            				<h3 style="color: white"  class="cta-title">Manage Address</h3><!-- End .cta-title -->
+
+										<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+										View<i class="icon-long-arrow-right"></i>
+										</button>
+
+										<!-- Modal -->
+									<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+											<div class="modal-header">
+												<a href="/add-address2" type="button" class="btn  btn-success" >Add Address</a>
+												{{!-- <h5 class="modal-title" id="staticBackdropLabel">Manage Address</h5> --}}
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<div class="card">
+													<div class="card-body" style="justify-content: flex-start;">
+														{{#each address}}
+														<span id="{{this.firstname}}address">
+														<div class="card-body col-md-12 "  >
+															
+															<div class="row" style="align-items: flex-end;" >
+																
+																<p class="card-text">{{this.firstname}}</p><br>
+																<p class="card-text">  {{this.address}}</p><br>
+																<p class="card-text">{{this.city}},{{this.state}},pin:{{this.pincode}},</p><br>
+														
+																<p class="card-text">{{this.email}}</p><br>
+																<p class="card-text">{{this.phone}}</p>
+
+
+															</div>
+															<a href="/delete-address2/{{this._id}}" class="btn btn-danger" >Delete</a>
+															<a href="/editAddress/{{this._id}}" class="btn btn-primary" >Edit</a><hr>
+														</div><!-- End .card-body -->
+														</span>
+														{{/each}}
+
+													</div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												
+												<button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+											</div>
+											</div>
+										</div>
+									</div>
+										
+										
+									{{!-- <a href="/" class="btn btn-primary btn-rounded"><span>Click Here</span><i class="icon-long-arrow-right"></i></a> --}}
+		            			</div><!-- End .cta-wrapper -->
+	                		</div><!-- End .col-lg-6 -->
+
+                            {{!-- <div class="col-lg-6">
+		            			<div class="cta-wrapper cta-text text-center">
+		            				<h3 class="cta-title">Change Password</h3><!-- End .cta-title -->
+
+							
+									<a href="/changepassword" class="btn btn-primary btn-rounded"><span>Change</span><i class="icon-long-arrow-right"></i></a>
+		            			</div><!-- End .cta-wrapper -->
+	                		</div><!-- End .col-lg-6 --> --}}
+
+	                		
+	                	</div><!-- End .row -->
+                	</div><!-- End .cta -->
+  
+              <div class="row text-center">
+                    <div class="col-6 col-lg-4 col-xl-2 "  >
+		                	<div class="btn-wrap">
+		                		<a href="/logout" class="btn btn-primary btn-round">Logout</a>
+		                	</div><!-- End .btn-wrap -->
+		                </div><!-- End .col-md-4 col-lg-2 -->
+
+             </div>
+
+             <div class="row text-center">
+                    <div class="col-6 col-lg-4 col-xl-2 "  >
+		                	<div class="btn-wrap">
+		                		<a href="#" class="btn btn-primary btn-round">Delete Account</a>
+		                	</div><!-- End .btn-wrap -->
+		                </div><!-- End .col-md-4 col-lg-2 -->
+
+             </div>
+             </div>
+
+
+        </main><!-- End .main -->
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

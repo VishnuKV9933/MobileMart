@@ -1,0 +1,267 @@
+
+
+{{!-- ----------------------------------------------------vvvvvvvvv----------------------------------------------------------------- --}}
+
+        <header class="header header-intro-clearance header-4">
+
+
+            <div class="header-middle">
+                <div class="container">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggler">
+                            <span class="sr-only">Toggle mobile menu</span>
+                            <i class="icon-bars"></i>
+                        </button>
+                        
+                        <a href="index.html" class="logo">
+
+                           <a href="/"> <h4>Mobile Mart</h4></a> 
+                          
+                        </a>
+                    </div><!-- End .header-left -->
+
+             
+{{!-- ----------------------------------------------------search----------------------------------------------------------------- --}}
+
+
+                    <div class="col-5" style="margin: auto;float: inline-end;">
+                <div class="header-search header-search-extended header-search-visible d-none d-lg-block"
+                    style="z-index:4;margin:0px !important;">
+                    <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                    <div class="header-search-wrapper mx-auto col-12 search-wrapper-wide"
+                        style=" background-color: white; ">
+                        <label for="q" class="sr-only">Search</label>
+                        <button class="btn  " type="submit"><i class="icon-search"></i></button>
+                        <input class="form-control" name="q" id="q"
+                            style="color: black; background-color:white; border-radius: 40px !important; "
+                            onkeyup="sendData(this)" placeholder="Search product ..." required="">
+                    </div><!-- End .header-search-wrapper -->
+                </div><!-- End .header-search -->
+                <section
+                    style="border-radius: 5px 5px 10px 11px; position: absolute; background-color:white; width: 95.7%; margin-top: -45px; z-index: 3; margin-left: 1px; flex-direction: column; overflow: hidden;">
+                    <div id="searchResults"
+                        style="margin-top: 20px; border: solid #e0d9d9 1px; margin-right: -16px; padding-top: 30px; overflow-y: scroll; display: block; max-height: 400px; display: none;">
+                    </div>
+                </section>
+            </div><!-- End .header-center -->
+
+{{!-- ----------------------------------------------------search----------------------------------------------------------------- --}}
+                  
+
+                    <div class="header-right">
+                          {{!-- <div class="float-right">login</div> --}}
+                          {{#if userLogged}}
+                              <a href="/logout">Log out </a>
+                              {{else}} 
+                                <a href="/login">Sign in / Sign up</a>                           
+                            {{/if}}
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <ul class="compare-products">
+                                    <li class="compare-product">
+                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        <h4 class="compare-product-title"><a href="product.html">Blue Night Dress</a></h4>
+                                    </li>
+                                    <li class="compare-product">
+                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        <h4 class="compare-product-title"><a href="product.html">White Long Skirt</a></h4>
+                                    </li>
+                                </ul>
+
+                                <div class="compare-actions">
+                                    <a href="#" class="action-link">Clear All</a>
+                                    <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i class="icon-long-arrow-right"></i></a>
+                                </div>
+                            </div><!-- End .dropdown-menu -->
+                        </div><!-- End .compare-dropdown -->
+
+                        <div class="wishlist">
+                            <a href="/wishlist" title="Wishlist">
+                                <div class="icon">
+                                    <i class="icon-heart-o"></i>
+                                    {{#if listCount}}
+                                    <span class="wishlist-count badge">{{listCount}}</span>
+                                    {{/if }}
+                                </div>
+                                <p>Wishlist</p>
+                            </a>
+                        </div><!-- End .compare-dropdown -->
+
+                         <div class="dropdown cart-dropdown">
+                            <a href="/cart" class="dropdown-toggle" role="button">
+                                <div class="icon">
+                                    <i class="icon-shopping-cart"></i>
+                                    {{#if cartCount}}
+                                    <span id="cart-count" class="cart-count">{{cartCount}}</span>
+                                    {{else}}
+                                    {{!-- <span id="cart-count" class="cart-count">0</span> --}}
+
+                                    {{/if}}
+                                </div>
+                                <p>Cart</p>
+                            </a>
+                        </div><!-- End .compare-dropdown -->  
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-cart-products">
+                                    <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title">
+                                                <a href="product.html">Beige knitted elastic runner shoes</a>
+                                            </h4>
+
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">1</span>
+                                                x $84.00
+                                            </span>
+                                        </div><!-- End .product-cart-details -->
+
+                                        <figure class="product-image-container">
+                                            <a href="product.html" class="product-image">
+                                                <img src="assets/images/products/cart/product-1.jpg" alt="product">
+                                            </a>
+                                        </figure>
+                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                    </div><!-- End .product -->
+
+                                    <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title">
+                                                <a href="product.html">Blue utility pinafore denim dress</a>
+                                            </h4>
+
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">1</span>
+                                                x $76.00
+                                            </span>
+                                        </div><!-- End .product-cart-details -->
+
+                                        <figure class="product-image-container">
+                                            <a href="product.html" class="product-image">
+                                                <img src="assets/images/products/cart/product-2.jpg" alt="product">
+                                            </a>
+                                        </figure>
+                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                    </div><!-- End .product -->
+                                </div><!-- End .cart-product -->
+
+                                <div class="dropdown-cart-total">
+                                    <span>Total</span>
+
+                                    <span class="cart-total-price">$160.00</span>
+                                </div><!-- End .dropdown-cart-total -->
+
+                                <div class="dropdown-cart-action">
+                                    <a href="cart.html" class="btn btn-primary">View Cart</a>
+                                    <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                </div><!-- End .dropdown-cart-total -->
+                            </div><!-- End .dropdown-menu -->
+                        </div><!-- End .cart-dropdown -->
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-middle -->
+
+            <div class="header-bottom sticky-header">
+                <div class="container">
+                    <div class="header-left">
+                        <div class="dropdown category-dropdown">
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Browse Categories">
+                                Browse Categories <i class="icon-angle-down"></i>
+                            </a>
+
+                            <div class="dropdown-menu">
+                                <nav class="side-nav">
+                                    <ul class="menu-vertical sf-arrows">
+                                        <li class="item-lead"><a href="#">Daily offers</a></li>
+                                        <li class="item-lead"><a href="#">Gift Ideas</a></li>
+                                        <li><a href="#">Beds</a></li>
+                                        <li><a href="#">Lighting</a></li>
+                                        <li><a href="#">Sofas & Sleeper sofas</a></li>
+                                        <li><a href="#">Storage</a></li>
+                                        <li><a href="#">Armchairs & Chaises</a></li>
+                                        <li><a href="#">Decoration </a></li>
+                                        <li><a href="#">Kitchen Cabinets</a></li>
+                                        <li><a href="#">Coffee & Tables</a></li>
+                                        <li><a href="#">Outdoor Furniture </a></li>
+                                    </ul><!-- End .menu-vertical -->
+                                </nav><!-- End .side-nav -->
+                            </div><!-- End .dropdown-menu -->
+                        </div><!-- End .category-dropdown -->
+                    </div><!-- End .header-left -->
+
+                    <div class="header-center">
+                        <nav class="main-nav">
+                            <ul class="menu sf-arrows">
+                                <li class="megamenu-container active">
+                                    <a href="/" class="sf-with-ul">Home</a>
+
+                                 
+                                </li>
+                                <li>
+                                    <a href="/orders" class="sf-with-ul">Orders</a>
+
+                                   
+                                </li>
+                                <li>
+                                    <a href="/view-products/?page=1" class="sf-with-ul">Product</a>
+
+                                  
+                                </li>
+                                <li>
+                                    <a href="/login?page={{person}}" class="sf-with-ul">Pages</a>
+
+                                   
+                                </li>
+                                <li>
+                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+
+                                    
+                                </li>
+                                <li>
+                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+
+                                   
+                                </li>
+                            </ul><!-- End .menu -->
+                        </nav><!-- End .main-nav -->
+                    </div><!-- End .header-center -->
+
+                    <div class="header-right">
+                                                        <div class="header-right">
+
+                        <ul class="top-menu">
+                            <li>
+                                <a href="#">Links</a>
+                                <ul>
+                                    <li>
+                                        <div c>
+                                            <a href="/user-account">Account</a>
+                                            <div class="header-menu">
+                                                <ul>
+                                                    <li><a href="#">Eur</a></li>
+                                                    <li><a href="#">Usd</a></li>
+                                                </ul>
+                                            </div><!-- End .header-menu -->
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="header-dropdown">
+                                            <a href="#">English</a>
+                                            <div class="header-menu">
+                                                <ul>
+                                                    <li><a href="#">English</a></li>
+                                                    <li><a href="#">French</a></li>
+                                                    <li><a href="#">Spanish</a></li>
+                                                </ul>
+                                            </div><!-- End .header-menu -->
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul><!-- End .top-menu -->
+                    </div><!-- End .header-right -->
+                    </div>
+                </div><!-- End .container -->
+            </div><!-- End .header-bottom -->
+        </header><!-- End .header -->
+

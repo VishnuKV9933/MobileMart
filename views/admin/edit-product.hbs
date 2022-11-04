@@ -1,0 +1,118 @@
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="text-center">Edit Product</h2>
+    
+
+<form action="/admin/edit-product/{{product._id}}" method="post" enctype="multipart/form-data" id="gform" >
+   
+  <div class="form-group">
+    <label for="">Name</label>
+    <input type="text" class="form-control" name="name" value="{{product.name}}">
+ 
+  </div>
+
+   <div class="form-group">
+    <label for="">Discription</label>
+    <input type="text" class="form-control" name="discription" value="{{product.discription}}">
+  </div>
+   
+
+
+     <div class="form-group">
+    <label for="">Price</label>
+    <input type="text" class="form-control" name="originalPrice" value="{{product.originalPrice}}">
+  </div>
+<label for="">Brand</label>
+    <select for="brand" name="brandId" id="brandId">
+      <option value="{{product.brandId}}" selected>{{product.brandName}}</option>
+  {{#each brand}}
+  <option value="{{this._id}}">{{this.brand}}</option>
+  {{/each}}
+</select>
+
+  <div class="form-group">
+    <label for="">Reviews</label>
+    <input type="text" class="form-control" name="reviews" value="{{product.reviews}}">
+  </div>
+
+  <div class="form-group">
+    <label for="">Stock</label>
+    <input type="number" class="form-control" name="stock" value="{{product.stock}}" >
+  </div>
+
+  <div class="form-group">
+    <label for="">image</label>
+    <img src="/images/product/{{product.img.[0]}}" style="width: 60px;height: 60px;" id="imageView" class="pt-3">
+    <input type="file" class="" name="image" id="gallery-photo-add" onchange="viewImage(event)" multiple >  </div>
+    {{!-- <input type="file" class="form-control" name="image" onchange="viewImage(event)"> --}}
+  </div>
+
+  <div class="container">
+
+  <button type="submit" class="btn btn-primary mt-4  ">Submit</button>
+
+</div>
+
+</form>
+       </div>
+    </div>
+
+</div>
+<script>
+  function viewImage(event){
+    document.getElementById('imageView').src=URL.createObjectURL(event.target.files[0])
+  }
+</script>
+
+
+
+  
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+{{!-- <script>
+
+ $(document).ready(function(){
+  jQuery.validator.addMethod("noSpace", function(value, element) { 
+    return value.indexOf(" ") < 0 && value != ""; 
+  }, "Space are not allowed");
+  $("#gform").validate({
+   rules:{
+       Name:{
+           required:true,
+          
+       },
+       Category:{
+           required:true,
+          
+       },
+       Price:{
+         required:true,
+          
+       },
+        Description:{
+         required:true,
+          
+       }
+
+   },
+
+ 
+
+
+  })
+})
+
+
+
+</script> --}}
+
+
+
+
+

@@ -1,0 +1,61 @@
+<main id="main" class="main">  
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Order Details</h5>
+
+              <!-- Table with hoverable rows -->
+              <table class="table table-hover" id="myTable">
+                <thead>
+                  <tr>
+                    <th scope="col">Slno</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    {{!-- <th scope="col">Quantity</th> --}}
+                    <th scope="col">Total Amount</th>
+                    <th scope="col">Payment method</th>
+                    <th scope="col">Date</th>
+                    {{!-- <th scope="col">Account</th> --}}
+                    <th scope="col">Status</th>
+                    {{!-- <th scope="col">status</th> --}}
+                    <th scope="col">more</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {{#each orders}}
+                  <tr>
+                    <th scope="row">{{indexing @index}}</th>
+                    <td>{{this.deliveryDetails.name}}</td>
+                    <td>{{this.deliveryDetails.address}},{{this.deliveryDetails.address.StreetName}},{{this.deliveryDetails.city}},{{this.deliveryDetails.Pin}}
+                    
+                    </td>
+                    <td>{{this.totalAmount}}</td>
+                    <td>{{this.paymentMethod}}</td>
+                    <td>{{this.date}}</td>
+                    {{!-- <td>{{this.Account.email}}</td> --}}
+                    <td>{{this.status}}</td>
+
+                    <td><a href="/admin/order-products/{{this._id}}"><button type="button" class="btn btn-primary ">More</button></a></td>
+                     {{!-- <td><a href=""><button type="button" class="btn btn-danger ">Cancel</button></a></td> --}}
+
+                     </td>
+                    {{!-- {{#if this.orderStatus}}
+                      <td class="action-col">
+                      <td><a href=""><button type="button" onclick="adminOrderCancel('hai')" class="btn btn-danger ">Cancel</button></a></td>
+                      </td>
+                    {{else}}
+                      <td class="action-col">
+                      <td><a href=""><button type="button" class="btn btn-danger ">Cancelled</button></a></td>
+                      </td>
+                    {{/if}} --}}
+                  
+                      </tr>
+                    {{/each}}
+                </tbody>
+              </table>
+                 
+              <!-- End Table with hoverable rows -->
+
+            </div>
+          </div>
+        </main>
+

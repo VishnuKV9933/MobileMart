@@ -1,0 +1,34 @@
+<section class="vh-100" style="background-color: #508bfc;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <h3 class="mb-5">OTP Login</h3>
+
+             <form action="/otpverify2" >
+            <div class="form-outline mb-4">
+              <input type="tel" id="typeEmailX-2" class="form-control form-control-lg" name="mobile"/>
+              <label class="form-label" for="typeEmailX-2">Mobile Number</label>
+            </div>
+
+            <button type="submit" class="btn btn-outline-primary btn-sm ">Send OTP </button>
+            </form>
+            {{#if permissionMessage}}
+               <p style="color:red;">{{permissionMessage}}</p>
+                {{/if}}
+
+              
+                
+
+            <hr class="my-4">
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

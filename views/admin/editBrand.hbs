@@ -1,0 +1,37 @@
+<main id="main" class="main">  
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="text-center">Edit Category</h2>
+    
+
+<form action="/admin/editBrand/{{brand._id}}" method="post"  id="gform" enctype="multipart/form-data" >
+   
+  <div class="form-group">
+    <label for="">Name</label>
+    <input id="name" type="text" class="form-control" value="{{brand.brand}}" name="brand" required>
+  </div>
+  <div class="container">
+  <p style="color: red;">{{message}}</p>
+
+   <img src="/images/product/{{brand.img.[0]}}" style="width: 60px;height: 60px;" id="imageView" class="pt-3">
+   <label for="">image</label>
+<input type="file" class="" name="image" id="gallery-photo-add" onchange="viewImage(event)" required>   </div>
+
+  <button type="submit" class="btn btn-primary mt-4  " >Submit</button>
+</div>
+
+</form>
+       </div>
+    </div>
+
+</div>
+
+<script>
+  function viewImage(event){
+    document.getElementById('imageView').src=URL.createObjectURL(event.target.files[0])
+  }
+</script>
+</main>
