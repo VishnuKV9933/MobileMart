@@ -1,5 +1,106 @@
+<style>
+  #card1 {
+    background-color: aqua;
+    
+
+  }
+   #card2 {
+    background-color: aqua;
+  }
+
+
+
+
+
+@media (min-width: 991.98px){
+    #card1 {
+    background-color: rgb(64, 162, 203);
+ 
+  }
+     #card2 {
+       background-color: rgb(64, 162, 203);
+    }
+}
+
+</style>
 <main id="main" class="main">  
-          <div class="card">
+
+
+         
+
+         <div class="container-fluid">
+          <div class="row" >
+        <div class="col-12 ">
+
+
+
+
+      <div class="row ">
+      
+            <div id="card1"  class="card col-12 col-md-4  mx-auto">
+              <div class="card-body">
+              <h5 class="card-title">Delivery Details</h5>
+
+              <!-- Default List group -->
+              <ul  class="list-group">
+                <li class="list-group-item">Name    :{{order.deliveryDetails.name}}</li>
+                <li class="list-group-item">Mobile  :{{order.deliveryDetails.mobile}}</li>
+                <li class="list-group-item">Address :{{order.deliveryDetails.address}}</li>
+                <li class="list-group-item">Pin     :{{order.deliveryDetails.Pin}}</li>
+                 <li class="list-group-item">Date  :{{order.date}}</li>
+              
+              </ul><!-- End Default List group -->
+
+          </div>
+
+        </div>
+
+
+            <div id="card2" class="card col-12 col-md-4 mx-auto">
+              <div class="card-body">
+              <h5 class="card-title">Order Details</h5>
+
+              <!-- Default List group -->
+              <ul class="list-group">
+             <li class="list-group-item">PaymentMethod    :{{order.paymentMethod}}</li>
+               
+
+                  {{#if order.originalPrice}}
+
+                <li class="list-group-item">
+                   <p>Total Amount:<s style="color:rgb(194, 176, 176) ;" > Rs.{{order.originalPrice}}</s></p>
+                </li>
+                <li class="list-group-item">Offer Amount:Rs.{{order.totalAmount}}</li>
+                {{else}}
+                 <li class="list-group-item">Total Amount:Rs.{{order.totalAmount}}</li>
+                {{/if}}
+              
+              </ul><!-- End Default List group -->
+
+          </div>
+
+        </div>
+
+
+
+
+
+ </div>
+
+
+
+
+
+
+        </div>
+          </div>
+         </div>
+
+
+
+
+
+     <div class="card">
             <div class="card-body">
               <h5 class="card-title">Order Details</h5>
 
@@ -21,10 +122,10 @@
                     <td>{{indexing @index}}</td>
                     <td class=""><img style="width:30px ;height:30px" src="/images/product/{{this.product.img.[0]}}" alt="" ><br>
                     <h7 class="" >{{this.product.name}}</h7><br>
-                    {{!-- <h7 class="" >{{this.product.Specs}}</h7><br>  --}}
+              
                     <h7 class="">{{this.product.color}}</h7>
                     </td>
-                    {{!-- <td>{{this.product._id}}<td> --}}
+              
                     <td style="">Rs.{{this.product.price}}</td>
                     <td>{{this.quantity}}</td>
                     <td>Rs.{{this.total}}</td>
@@ -92,6 +193,7 @@
 
 
             </div>
+   
 
 
            <!-- Button trigger modal -->

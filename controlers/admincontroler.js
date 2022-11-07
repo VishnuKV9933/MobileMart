@@ -6,11 +6,11 @@ const graphHelpers=require("../helpers/graphHelpers")
 const offerHelper=require("../helpers/adminOfferManagement")
 var objectId = require("mongodb").ObjectId;
 const userHelpers = require("../helpers/user-helpers");
-
+require('dotenv').config();
 
 const credential = {
-  email: "admin@gmail.com",
-  password: "hi",
+  email: process.env.email,
+  password: process.env.password,
 };
 
 const verify = function (req, res, next) {
@@ -192,6 +192,7 @@ const getOrderProducts=async(req, res) => {
   let orderId=req.params.id
   
   let order=await userHelpers.getOrder(orderId)
+  console.log(order);
   
     let products= await userHelpers.getOrderProducts(orderId)
      

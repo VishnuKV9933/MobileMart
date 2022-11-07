@@ -12,7 +12,7 @@ const nocache = require("nocache");
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 const hbsHelpers=require('./hbsHelpers')
-
+require('dotenv').config();
 // var loginRouter=require('./routes/login')
 
 var app = express();

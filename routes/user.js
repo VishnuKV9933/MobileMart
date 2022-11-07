@@ -6,31 +6,13 @@ const userHelpers = require("../helpers/user-helpers");
 const offerHelper=require('../helpers/adminOfferManagement')
 const wishlistCartManagement= require("../helpers/wishlistAndCartmanagement")
 const {verifyLogin,home,signup,signupPost,login,loginPost,otplogin,verifiOtp2,verifyOTP,product,cart,changeProductQuantity,addToCart,
-removeProduct,checkOut,applyCoupon,removeCoupun,placeOrder,verifyPayment,payPal,paypalSuccess}=require("../controlers/userControler")
-
-let accountSID = "AC6bd96a8cfa637f5e8a890b9b0f8a0b88";
-let accountToken = "f487d1fd482b90e07042e592e9409672";
-let serviceId = "VA23c95a671510d60f4525101b2a3cdd6f";
-
-let ACCOUNT_SID = "ACa5f9ac4f0b72d68d7e8ef0480c4f63ca";
-let AUTH_TOKEN = "7523c17978c33a6c251a8bde2b085458";
-let SERVICE_ID = "VA2d9832551c0140f909c9c672bea8710c";
-const client = require("twilio")(ACCOUNT_SID, AUTH_TOKEN);
-
+removeProduct,checkOut,applyCoupon,removeCoupun,placeOrder,verifyPayment,payPal,paypalSuccess,orderPlaced,orders,viewOrderProducts,
+orderInvoice,cancelOrder,orderReturn,returnOrderPost,addAddress,addAddressPost,deteteAddress,editAddress,editAddress3,userAccount,
+addAddress2,addAddress2Post,deleteAddress2,editAddress2,editAddress4,editUserDetails,editUserDetailsPost,changePassword,
+changePasswordPost,addCartWishlist}=require("../controlers/userControler")
 
 const paypal = require('paypal-rest-sdk');
 const { response } = require("../app");
-
-paypal.configure({
-  'mode': 'sandbox', //sandbox or live
-  'client_id': 'Aa_QCx82uFuPzkHCWimiSFSPyrhvR0w6iDCvz5cXbb7ZWtngPvo88EiSFhtY8azJfz6G6iKJDEKuOFlZ',
-  'client_secret': 'EDZdfQK2nq1eaYwYgk4YrtgHLDjFgCLPieZPY_YfUM8bIVCCM0iGlTp3AVoARig4U8tTYV-h5SCuSZKg'
-});
-
-
-
-
-
 
 router.get("/",home);
 
@@ -52,19 +34,19 @@ router.get("/product/:id",product);
 
 router.get("/cart",verifyLogin,cart);
 
-router.post("/change-product-quantity",changeProductQuantity);
+router.post("/change-product-quantity",verifyLogin,changeProductQuantity);
 
-router.get("/add-to-cart/:id",addToCart);
+router.get("/add-to-cart/:id",verifyLogin,addToCart);
 
 router.post("/remove-product",removeProduct);
 
 router.get("/checkout", verifyLogin,checkOut);
 
-router.post('/apply-coopon',applyCoupon)
+router.post('/apply-coopon',verifyLogin,applyCoupon)
 
 router.get('/removeCoupun',verifyLogin,removeCoupun)
 
-router.post("/place-order", placeOrder);
+router.post("/place-order",verifyLogin, placeOrder);
 
 router.post('/verify-payment',verifyPayment)
 
@@ -72,268 +54,49 @@ router.post('/pay',payPal);
  
 router.get('/success',paypalSuccess);  
  
-router.get("/order-placed", async(req, res) => {
-  let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
-  
- let   cartCount = await userHelpers.getCartCount(req.session.user._id);
-  res.render("user/order-placed", {
-    noheader: true,
-    userLogged:true,
-    user: req.session.user,
-    cartCount,
-    listCount
-  });
-});
+router.get("/order-placed",orderPlaced);
 
-router.get("/orders", verifyLogin, async (req, res) => {
-  let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
-  
- let   cartCount = await userHelpers.getCartCount(req.session.user._id);
-  let orders = await userHelpers.getUserOders(req.session.user._id);
-  res.render("user/orders", {
-    noheader: true,
-    userLogged:true,
-    user: req.session.user,
-    orders,
-    listCount,
-    cartCount
-  });
-});
+router.get("/orders", verifyLogin,orders);
 
-router.get("/view-order-products/:id", verifyLogin, async (req, res) => {
-  req.session.user.orderProdId = req.params.id;
-  res.redirect("/view-order-products");
-});
-
-router.get("/view-order-products",verifyLogin,async (req, res) => {
-  let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
-  
- let   cartCount = await userHelpers.getCartCount(req.session.user._id);
-  let orderProdId= req.session.user.orderProdId
-  let products = await userHelpers.getOrderProducts(orderProdId);
-  
-  let order=await userHelpers.getUserOrder(orderProdId)
-  res.render("user/order-products", { noheader: true, userLogged:true, products,cartCount,listCount, orderProdId,order});
-});
-
-
-router.get("/view-orderInvoice/:id",(req,res)=>{
-
-  
-req.session.user.id=req.params.id
-
-  res.redirect('/view-orderInvoice2')
-
-})
-
+router.get("/view-order-products/:id",verifyLogin,viewOrderProducts);
  
-router.get("/view-orderInvoice2",async(req,res)=>{
-  console.log(req.session.id);
-  console.log(req.session.id); 
-  console.log(req.session.id); 
-  let products = await userHelpers.getOrderProducts(req.session.user.id);
-  let order=await userHelpers.getUserOrder(req.session.user.id)
-
-  console.log("order");
-  console.log(products);
-  console.log("order");
-    res.render('user/invoice', { noheader: true, userLogged:true,products,order})
+router.get("/view-orderInvoice/:id",orderInvoice)
    
-  })
-   
+router.post("/order-cancel",cancelOrder);
 
+router.post("/order-return",orderReturn);
 
-router.post("/order-cancel", (req, res) => {
-  userHelpers.orderCancel(req.body.orderId).then((response) => {
-    userHelpers.getOrderProductQuantity(req.body.orderId).then((data) => {
-      data.forEach((element) => {
-        userHelpers.updateStockIncrease(element);
-      });
-    });
-    res.json({ status: true });
-  });
-});
-
-router.post("/order-return", (req, res) => {
-  userHelpers.orderReturn(req.body.orderId).then((response) => {
-    userHelpers.getOrderProductQuantity(req.body.orderId).then((data) => {
-      data.forEach((element) => {
-        userHelpers.updateStockIncrease(element);
-      });
-    }); 
-    res.json({ status: true });
-  });
-});
-
-
-router.post('/return-order',(req,res)=>{
-
-  userHelpers.orderReturn(req.body).then((data)=>{})
-  console.log('return');
-  console.log('return');
-  console.log('return');
-  res.redirect("/orders")
-
- })
-
-
-
-router.get("/brand-products/:id",async (req, res) => {
-  let brands=await productHelpers.getAllBrand()
-  productHelpers.getBrandProducts(req.params.id).then((products) => {
-    res.render("user/brand-products", { noheader: true, userLogged:true, products,brands });
-  });
-});
-
-router.get("/brand-products2/", async(req, res) => {
-
-});
-
+router.post('/return-order',returnOrderPost)
 /*------------------------------------------------------------------address-----------------------------------------------------------------*/
+router.get("/add-address", verifyLogin,addAddress);
 
-router.get("/add-address", verifyLogin, async(req, res) => {
-  let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
-  
- let   cartCount = await userHelpers.getCartCount(req.session.user._id);
-  let user = req.session.user;
+router.post("/add-address",addAddressPost);
 
-  res.render("user/add-address", { noheader: true, userLogged:true, user,cartCount,listCount });
-});
+router.get("/delete-address/:id",deteteAddress);
 
-router.post("/add-address", (req, res) => {
-  userHelpers.addUserAdderss(req.body).then((data) => {});
+router.get("/edit-address/:id",editAddress);
 
-  res.redirect("/checkout");
-});
-
-//-------------------------------------------------------
-
-
-router.get("/delete-address/:id", (req, res) => {
-  userHelpers.deleteAddress(req.params.id).then((data) => {
-    res.redirect("/checkout");
-  });
-});
-
-router.get("/edit-address/:id", (req, res) => {
-  userHelpers.findAddress(req.params.id).then((address) => {
-    res.render("user/edit-address", { address, user: req.session.user });
-  });
-});
-
-router.post("/edit-address-3", (req, res) => {
-  userHelpers.editAddress(req.body).then((data) => {});
-  res.redirect("/checkout");
-});
+router.post("/edit-address-3",editAddress3);
 //---------------------------------------------useraccount---------------------------------------------------------
-router.get("/user-account", verifyLogin, async (req, res) => {
-  let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
-  
-let  cartCount = await userHelpers.getCartCount(req.session.user._id);
-let user= await userHelpers.getuserDetails(req.session.user._id)
-  userHelpers.getUserAddress(req.session.user._id).then((address) => {
-    console.log(address);
-    res.render("user/account", {
-      cartCount,
-      listCount,
-      user,
-      noheader: true,
-      userLogged:true,
-      address,
-    });
-  });
-});
+router.get("/user-account", verifyLogin,userAccount);
 
+router.get("/add-address2", verifyLogin,addAddress2);
 
+router.post("/add-address2",addAddress2Post);
 
-router.get("/add-address2", verifyLogin,async (req, res) => {
-  console.log("hai");
-  let user = req.session.user;
-  let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
-  
- let   cartCount = await userHelpers.getCartCount(req.session.user._id);
-  res.render("user/add-address2", { noheader: true, userLogged:true, user,cartCount,listCount });
-});
+router.get("/delete-address2/:id",deleteAddress2);
 
-router.post("/add-address2", (req, res) => {
-  userHelpers.addUserAdderss(req.body).then((data) => {});
+router.get("/editAddress/:id", editAddress2);
 
-  res.redirect("/user-account");
-});
+router.post("/editAddress-3", editAddress4);
 
-router.get("/delete-address2/:id", (req, res) => {
-  userHelpers.deleteAddress(req.params.id).then((data) => {
-    res.redirect("/user-account");
-  });
-});
+router.get("/edit-userdetails", verifyLogin, editUserDetails);
 
-router.get("/editAddress/:id", (req, res) => {
-  userHelpers.findAddress(req.params.id).then((address) => {
-    res.render("user/editAddress", { address, user: req.session.user });
-  });
-});
+router.post("/edit-userDetails", editUserDetailsPost);
 
-router.post("/editAddress-3", (req, res) => {
-  userHelpers.editAddress(req.body).then((data) => {});
-  res.redirect("/user-account");
-});
+router.get('/change-password',verifyLogin,changePassword)
 
-router.get("/edit-userdetails", verifyLogin, (req, res) => {
-  let permissionMessage
-  if( req.session.permissionMessage){
-    permissionMessage= req.session.permissionMessage
-  }
-  userHelpers.getuserDetails(req.session.user._id).then((user) => {
-    res.render("user/editUserDetails", { user ,permissionMessage});
-    req.session.permissionMessage=""
-    permissionMessage=" "
-  });
-});
-
-router.post("/edit-userDetails", (req, res) => {
-  console.log(req.body);
-  userHelpers.editUserDetails(req.body).then((response)=>{
-  if(response.mobileExist){
-
-         res.redirect("/edit-userdetails")
-         req.session.permissionMessage=response.message
-  }else if(response.emailExist){
-    res.redirect("/edit-userdetails")
-    req.session.permissionMessage=response.message
-  }else{
-
-    res.redirect("/user-account")
-
-  }
-  }); 
-});
-
-router.get('/change-password',verifyLogin,(req,res)=>{
-  let permissionMessage
-  if( req.session.permissionMessage){
-    permissionMessage= req.session.permissionMessage
-  }
- 
-  res.render('user/changePassword',{user:req.session.user,permissionMessage})
-  req.session.permissionMessage=""
-  permissionMessage=" "
-
-})
-
-router.post('/change-password',(req,res)=>{
-console.log(req.body);
-  userHelpers.checkOldPassword(req.body).then((data)=>{
-
-    if(data){
-      res.render('user/new-password',{user:req.session.user})
-    }else{
-      req.session.permissionMessage="password is incorrect"
-      res.redirect('/change-password')
-    }
-
-  })
-
-})
+router.post('/change-password',changePasswordPost)
 
 router.post('/new-password',verifyLogin,(req,res)=>{
 
@@ -344,15 +107,7 @@ router.post('/new-password',verifyLogin,(req,res)=>{
 
 })
 
-router.get('/add-cartWishlist/:id',(req,res)=>{
-  let productId=req.params.id
-  let userId=req.session.user._id
-  console.log(productId);
-  console.log(userId);
-  console.log('---------');
-   wishlistCartManagement.addToWishlist(productId,userId).then((data)=>{})
-  res.redirect("/wishlist")
-})
+router.get('/add-cartWishlist/:id',addCartWishlist)
 
 
 
@@ -421,11 +176,21 @@ router.get('/remove-from-wishlist/:id',(req,res)=>{
 })
  
 
-router.post('/category-filter',verifyLogin,(req,res)=>{
+router.get("/brand-products/:id",async (req, res) => {
+  let brands=await productHelpers.getAllBrand()
+  productHelpers.getBrandProducts(req.params.id).then((products) => {
+    res.render("user/brand-products", { noheader: true, userLogged:true, products,brands });
+  });
+});
 
+router.post('/category-filter',(req,res)=>{
+
+  console.log(req.body);
+
+  console.log("req.body");
 userHelpers.filteredProducts(req.body).then((products)=>{
 
-  req.session.user.categoryFilterProducts=products
+  req.session.categoryFilterProducts=products
 
   res.redirect('/category-filter')
   
@@ -433,28 +198,27 @@ userHelpers.filteredProducts(req.body).then((products)=>{
      
 }) 
  
-router.get('/category-filter',verifyLogin,async(req,res)=>{
+router.get('/category-filter',async(req,res)=>{
+
+  let userLogged
+  if(req.session.user){
+    userLogged=true
+  }
 
   let brands=await productHelpers.getAllBrand()
 
-  let products=req.session.user.categoryFilterProducts
+  let products=req.session.categoryFilterProducts
 
-  res.render('user/category-filter',{noheader: true, userLogged:true, products,brands})
+  res.render('user/category-filter',{noheader: true, userLogged, products,brands})
   
 })
  
-router.get('/view-products',(req,res)=>{
-
- req.session.viewid6= req.query.page
-
- res.redirect('/view-products2')
-}) 
 
 
 async function pagination(req, res, next) {   
    
-  // let page = parseInt(req.query.page)
-  let page = parseInt(req.session.viewid6)
+ 
+  let page = parseInt(req.query.page)
 
   console.log("page")
   console.log(page)
@@ -504,9 +268,14 @@ if (endIndex < productsCount) {
 }
 }
 
-router.get('/view-products2',pagination,async(req,res)=>{
-// let products =await productHelpers.getAllproducts()
-console.log();
+ 
+
+router.get('/view-products',pagination,async(req,res)=>{
+  let   userLogged
+  if(req.session.user){
+    userLogged=true
+  }
+
 let products=res.paginatedResults.products
 let next =res.paginatedResults.next
 let previous =res.paginatedResults.previous
@@ -517,7 +286,7 @@ let currentPage =res.paginatedResults.currentPage
 console.log(currentPage);
 console.log("currentPage");
 
-  res.render('user/view-products',{noheader: true, userLogged:true, products,next,previous,pages,pageCount,currentPage,viewProduct:true})
+  res.render('user/view-products',{noheader: true, userLogged, products,next,previous,pages,pageCount,currentPage,viewProduct:true})
   
 
 })
@@ -525,7 +294,7 @@ console.log("currentPage");
 router.post('/getProducts',async(req,res)=>{
   let payload=req.body.payload.trim()
 
-  console.log(payload);
+
 
  let search=await userHelpers.getSearchResults(payload)
 console.log(search);

@@ -3,12 +3,13 @@ const bcrypt = require("bcrypt");
 const collection = require("../configuration/collection");
 const { response } = require("../app");
 var objectId = require("mongodb").ObjectId;
+require('dotenv').config();
 
 const Razorpay = require('razorpay');
 const { resolve } = require("path");
 var instance = new Razorpay({
-  key_id: 'rzp_test_7bizOs9oIerHdK',
-  key_secret: 'k2sLt4f1ixYCyiV0iYXMI7td',
+  key_id: process.env.key_id,
+  key_secret: process.env.key_secret,
 });
    
 module.exports = {

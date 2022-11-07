@@ -5,15 +5,11 @@ const productHelpers = require("../helpers/product-helpers");
 const userHelpers = require("../helpers/user-helpers");
 const offerHelper=require('../helpers/adminOfferManagement')
 const wishlistCartManagement= require("../helpers/wishlistAndCartmanagement")
+require('dotenv').config();
 
-
-let accountSID = "AC6bd96a8cfa637f5e8a890b9b0f8a0b88";
-let accountToken = "f487d1fd482b90e07042e592e9409672";
-let serviceId = "VA23c95a671510d60f4525101b2a3cdd6f";
-
-let ACCOUNT_SID = "ACa5f9ac4f0b72d68d7e8ef0480c4f63ca";
-let AUTH_TOKEN = "7523c17978c33a6c251a8bde2b085458";
-let SERVICE_ID = "VA2d9832551c0140f909c9c672bea8710c";
+let ACCOUNT_SID = process.env.ACCOUNT_SID;
+let AUTH_TOKEN =process.env.AUTH_TOKEN;
+let SERVICE_ID =process.env.SERVICE_ID;
 const client = require("twilio")(ACCOUNT_SID, AUTH_TOKEN);
 
 
@@ -22,8 +18,8 @@ const { response } = require("../app");
 
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
-  'client_id': 'Aa_QCx82uFuPzkHCWimiSFSPyrhvR0w6iDCvz5cXbb7ZWtngPvo88EiSFhtY8azJfz6G6iKJDEKuOFlZ',
-  'client_secret': 'EDZdfQK2nq1eaYwYgk4YrtgHLDjFgCLPieZPY_YfUM8bIVCCM0iGlTp3AVoARig4U8tTYV-h5SCuSZKg'
+  'client_id':process.env.client_id,
+  'client_secret': process.env.client_secret
 });
 
 
@@ -728,6 +724,240 @@ const paypalSuccess=async (req, res) => {
 });
 }
 
+const orderPlaced= async(req, res) => {
+  let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
+  
+ let   cartCount = await userHelpers.getCartCount(req.session.user._id);
+  res.render("user/order-placed", {
+    noheader: true,
+    userLogged:true,
+    user: req.session.user,
+    cartCount,
+    listCount
+  });
+}
+
+
+const orders= async (req, res) => {
+  let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
+  
+ let   cartCount = await userHelpers.getCartCount(req.session.user._id);
+  let orders = await userHelpers.getUserOders(req.session.user._id);
+  res.render("user/orders", {
+    noheader: true,
+    userLogged:true,
+    user: req.session.user,
+    orders,
+    listCount,
+    cartCount
+  });
+}
+
+const viewOrderProducts=async (req, res) => {
+  let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
+  
+ let   cartCount = await userHelpers.getCartCount(req.session.user._id);
+  let orderProdId= req.params.id
+  let products = await userHelpers.getOrderProducts(orderProdId);
+  
+  let order=await userHelpers.getUserOrder(orderProdId)
+  res.render("user/order-products", { noheader: true, userLogged:true, products,cartCount,listCount, orderProdId,order});
+}
+
+
+const orderInvoice=async(req,res)=>{
+
+  let products = await userHelpers.getOrderProducts(req.params.id);
+  let order=await userHelpers.getUserOrder(req.params.id)
+
+  console.log("order");
+  console.log(products);
+  console.log("order");
+    res.render('user/invoice', { noheader: true, userLogged:true,products,order})
+   
+  }
+
+const cancelOrder=(req, res) => {
+  userHelpers.orderCancel(req.body.orderId).then((response) => {
+    userHelpers.getOrderProductQuantity(req.body.orderId).then((data) => {
+      data.forEach((element) => {
+        userHelpers.updateStockIncrease(element);
+      });
+    });
+    res.json({ status: true });
+  });
+}
+
+const orderReturn= (req, res) => {
+  userHelpers.orderReturn(req.body.orderId).then((response) => {
+    userHelpers.getOrderProductQuantity(req.body.orderId).then((data) => {
+      data.forEach((element) => {
+        userHelpers.updateStockIncrease(element);
+      });
+    }); 
+    res.json({ status: true });
+  });
+}
+
+const returnOrderPost=(req,res)=>{
+  userHelpers.orderReturn(req.body).then((data)=>{})
+  res.redirect("/orders")
+ }
+
+ const addAddress=async(req, res) => {
+  let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
+  
+ let   cartCount = await userHelpers.getCartCount(req.session.user._id);
+  let user = req.session.user;
+
+  res.render("user/add-address", { noheader: true, userLogged:true, user,cartCount,listCount });
+}
+
+
+const addAddressPost=(req, res) => {
+  userHelpers.addUserAdderss(req.body).then((data) => {});
+
+  res.redirect("/checkout");
+}
+
+const deteteAddress=(req, res) => {
+  userHelpers.deleteAddress(req.params.id).then((data) => {
+    res.redirect("/checkout");
+  });
+}
+
+const editAddress=(req, res) => {
+  userHelpers.findAddress(req.params.id).then((address) => {
+    res.render("user/edit-address", { address, user: req.session.user });
+  });
+}
+
+
+const editAddress3= (req, res) => {
+  userHelpers.editAddress(req.body).then((data) => {});
+  res.redirect("/checkout");
+}
+
+const userAccount=async (req, res) => {
+  let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
+  
+let  cartCount = await userHelpers.getCartCount(req.session.user._id);
+let user= await userHelpers.getuserDetails(req.session.user._id)
+  userHelpers.getUserAddress(req.session.user._id).then((address) => {
+    console.log(address);
+    res.render("user/account", {
+      cartCount,
+      listCount,
+      user,
+      noheader: true,
+      userLogged:true,
+      address,
+    });
+  });
+}
+
+
+const addAddress2=async (req, res) => {
+  console.log("hai");
+  let user = req.session.user;
+  let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
+  
+ let   cartCount = await userHelpers.getCartCount(req.session.user._id);
+  res.render("user/add-address2", { noheader: true, userLogged:true, user,cartCount,listCount });
+}
+
+const addAddress2Post=(req, res) => {
+  userHelpers.addUserAdderss(req.body).then((data) => {});
+
+  res.redirect("/user-account");
+}
+
+const deleteAddress2=(req, res) => {
+  userHelpers.deleteAddress(req.params.id).then((data) => {
+    res.redirect("/user-account");
+  });
+}
+
+const editAddress2=(req, res) => {
+  userHelpers.findAddress(req.params.id).then((address) => {
+    res.render("user/editAddress", { address, user: req.session.user });
+  });
+}
+
+
+const editAddress4=(req, res) => {
+  userHelpers.editAddress(req.body).then((data) => {});
+  res.redirect("/user-account");
+}
+
+const editUserDetails=(req, res) => {
+  let permissionMessage
+  if( req.session.permissionMessage){
+    permissionMessage= req.session.permissionMessage
+  }
+  userHelpers.getuserDetails(req.session.user._id).then((user) => {
+    res.render("user/editUserDetails", { user ,permissionMessage});
+    req.session.permissionMessage=""
+    permissionMessage=" "
+  });
+}
+
+
+const editUserDetailsPost=(req, res) => {
+  console.log(req.body);
+  userHelpers.editUserDetails(req.body).then((response)=>{
+  if(response.mobileExist){
+
+         res.redirect("/edit-userdetails")
+         req.session.permissionMessage=response.message
+  }else if(response.emailExist){
+    res.redirect("/edit-userdetails")
+    req.session.permissionMessage=response.message
+  }else{
+
+    res.redirect("/user-account")
+
+  }
+  }); 
+}
+
+const changePassword=(req,res)=>{
+  let permissionMessage
+  if( req.session.permissionMessage){
+    permissionMessage= req.session.permissionMessage
+  }
+ 
+  res.render('user/changePassword',{user:req.session.user,permissionMessage})
+  req.session.permissionMessage=""
+  permissionMessage=" "
+
+}
+
+const changePasswordPost=(req,res)=>{
+  console.log(req.body);
+    userHelpers.checkOldPassword(req.body).then((data)=>{
+  
+      if(data){
+        res.render('user/new-password',{user:req.session.user})
+      }else{
+        req.session.permissionMessage="password is incorrect"
+        res.redirect('/change-password')
+      }
+  
+    })
+  
+  }
+
+  const addCartWishlist=(req,res)=>{
+    let productId=req.params.id
+    let userId=req.session.user._id
+    console.log(productId);
+    console.log(userId);
+    console.log('---------');
+     wishlistCartManagement.addToWishlist(productId,userId).then((data)=>{})
+    res.redirect("/wishlist")
+  }
+
 module.exports={
 
     verifyLogin,
@@ -750,6 +980,29 @@ module.exports={
     placeOrder,
     verifyPayment,
     payPal,
-    paypalSuccess
+    paypalSuccess,
+    orderPlaced,
+    orders,
+    viewOrderProducts,
+    orderInvoice,
+    cancelOrder,
+    orderReturn,
+    returnOrderPost,
+    addAddress,
+    addAddressPost,
+    deteteAddress,
+    editAddress,
+    editAddress3,
+    userAccount,
+    addAddress2,
+    addAddress2Post,
+    deleteAddress2,
+    editAddress2,
+    editAddress4,
+    editUserDetails,
+    editUserDetailsPost,
+    changePassword,
+    changePasswordPost,
+    addCartWishlist
 
 }

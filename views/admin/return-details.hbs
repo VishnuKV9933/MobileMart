@@ -33,6 +33,14 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <style>
+#card1 {
+
+background-color: aqua;
+
+}
+
+  </style>
 </head>
 
   <main id="main" class="main">
@@ -42,10 +50,17 @@
 
 
 {{!-- ---------------------------------------------------------------------BODY-------------------------------------------------------------------------------- --}}
- <div class="row">
-        <div class="col-lg-12 d-flex ">
-            <div class=" card col-sm-12 col-lg-5">
-              <div class="card-body">
+  <div class="container-fluid">
+          <div class="row" >
+        <div class="col-12 ">
+
+
+
+
+      <div class="row ">
+      
+            <div class="card col-12 col-md-5 mx-auto">
+              <div id="card1" class="card-body">
               <h5 class="card-title">Delivery Details</h5>
 
               <!-- Default List group -->
@@ -57,27 +72,42 @@
               
               </ul><!-- End Default List group -->
 
-            </div>
-          </div>
-
-
-           <div class="card sm-12 col-lg-5 ml-5">
-            <div class="card-body">
-              <h5 class="card-title">Order Details</h5>
-
-              <!-- Default List group -->
-              <ul class="list-group">
-                <li class="list-group-item">PaymentMethod    :{{order.paymentMethod}}</li>
-                <li class="list-group-item">Date  :{{order.date}}</li>
-                <li class="list-group-item">Total Amount :{{order.totalAmount}}</li>
-                <li class="list-group-item">Reason     :{{order.reason}}</li>
-              </ul><!-- End Default List group -->
-
-            </div>
           </div>
 
         </div>
+
+
+            <div class="card col-12 col-md-5 mx-auto">
+              <div class="card-body">
+              <h5 class="card-title"> Order Details</h5>
+
+              <!-- Default List group -->
+              <ul class="list-group">
+             <li class="list-group-item">PaymentMethod    :{{order.paymentMethod}}</li>
+                <li class="list-group-item">Date  :{{order.date}}</li>
+                <li class="list-group-item">Total Amount :{{order.totalAmount}}</li>
+                <li class="list-group-item">Reason     :{{order.reason}}</li>
+              
+              </ul><!-- End Default List group -->
+
+          </div>
+
+        </div>
+
+
+
+
+
  </div>
+
+
+
+
+
+
+        </div>
+          </div>
+         </div>
 
 <div class="card">
             <div class="card-body">
