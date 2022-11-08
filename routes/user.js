@@ -48,15 +48,74 @@ router.get('/removeCoupun',verifyLogin,removeCoupun)
 
 router.post("/place-order",verifyLogin, placeOrder);
 
-router.post('/verify-payment',verifyPayment)
+router.post('/verify-payment',verifyPayment) 
 
 router.post('/pay',payPal);
  
-router.get('/success',paypalSuccess);  
+router.get('/success',async (req, res) => {
+
+  let listCount
+  let   cartCount
+  if(req.session.user){
+      listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
+  
+      cartCount = await userHelpers.getCartCount(req.session.user._id);
+  }
+
+  let userId=req.query.user
+ 
+  let orderId=req.query.order
+  const payerId = req.query.PayerID;
+  const paymentId = req.query.paymentId;
+
+  const execute_payment_json = { 
+    "payer_id": payerId, 
+    "transactions": [{
+        "amount": {
+            "currency": "USD", 
+            "total":req.session.paypalTotal
+        }
+    }]
+  };
+
+  paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+    if (error) {
+        console.log(error.response);
+        // throw error;
+    } else {
+        console.log(JSON.stringify(payment));
+
+        userHelpers.changeOrderStatusOnline(orderId).then((data)=>{})
+        userHelpers.getOrderProductQuantity(orderId).then((data) => { 
+          data.forEach((element) => {
+            userHelpers.updateStockDecrease(element);
+          });
+        });
+ 
+        userHelpers.getuserDetails(req.session.user._id).then((user)=>{
+          if(user.coopon){
+      
+            offerHelper.cooponObjectRemovelUser(user._id).then((data)=>{
+            })
+            .catch((err)=>{console.log(err);})
+        
+          }
+      
+         })
+      
+      
+        userHelpers.deleteCart(req.session.user._id).then((data)=>{})  
+         res.render('user/order-placed', {noheader: true,cartCount,listCount,
+         userLogged:true}) 
+          
+        
+    }
+});
+});  
  
 router.get("/order-placed",orderPlaced);
 
-router.get("/orders", verifyLogin,orders);
+router.get("/orders", verifyLogin,orders); 
 
 router.get("/view-order-products/:id",verifyLogin,viewOrderProducts);
  
@@ -128,8 +187,8 @@ router.get('/add-wishlist/:id',(req,res)=>{
   let userId=req.session.user._id
  
    wishlistCartManagement.addToWishlist(productId,userId).then((data)=>{})
-  res.redirect("/")
-})
+  res.redirect("/wishlist")
+}) 
 
 
 router.get("/add-to-cart-wishlist/:id", (req, res) => {

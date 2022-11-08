@@ -7,7 +7,7 @@ wallet,categoryManagement,addBrand,addBrandPost,editBrand,editBrandPost,deleteBr
 editCategoryOfferPost,deleteCategoryOffer,productOffer,productOfferPost,editProductOfferPost,deleteProductOffer,couponManagement,
 addCouponPost,deleteCoupon,logout,homePost,verify,credential}=require('../controlers/admincontroler')
 
-
+   
 
 router.post("/",homePost);
 

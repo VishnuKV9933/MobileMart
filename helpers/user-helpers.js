@@ -660,10 +660,10 @@ paypalGrandTotal:(userId)=>{
       .toArray();
       console.log('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
       console.log(totalPrice);
-    resolve(totalPrice);
+    resolve(totalPrice); 
   });
 },
-
+ 
 getCartProductList:(userId)=>{
   
   return new Promise(async(resolve,reject)=>{

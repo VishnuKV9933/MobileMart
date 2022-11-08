@@ -7,9 +7,16 @@ const offerHelper=require('../helpers/adminOfferManagement')
 const wishlistCartManagement= require("../helpers/wishlistAndCartmanagement")
 require('dotenv').config();
 
-let ACCOUNT_SID = process.env.ACCOUNT_SID;
-let AUTH_TOKEN =process.env.AUTH_TOKEN;
-let SERVICE_ID =process.env.SERVICE_ID;
+// let ACCOUNT_SID = process.env.ACCOUNT_SID;
+// let AUTH_TOKEN =process.env.AUTH_TOKEN;
+// let SERVICE_ID =process.env.SERVICE_ID;
+
+let SERVICE_ID="VAd5c4c9e1d4bbe68e30f51c1c31712853"
+let ACCOUNT_SID="ACe365b74f7a9b1eb0c7537de81e471687"
+let AUTH_TOKEN="c25e661c6e9ae2926ed3bc87bd76c4a3"
+
+
+
 const client = require("twilio")(ACCOUNT_SID, AUTH_TOKEN);
 
 
@@ -512,7 +519,7 @@ const placeOrder=async (req, res) => {
  
    }else{ 
      console.log('-----------------------------------------15-----------------------------------------------');
- 
+ console.log(req.body);
  
    let products = await userHelpers.getCartProductList(req.body.userId);
    let totalPrice = await userHelpers.getGrandTotal(req.body.userId);
@@ -657,7 +664,7 @@ const verifyPayment=async(req,res)=>{
 
 paypal.payment.create(create_payment_json, function (error, payment) {
   if (error) {
-      throw error;
+      // throw error;
   } else {
       for(let i = 0;i < payment.links.length;i++){
         if(payment.links[i].rel === 'approval_url'){
@@ -669,60 +676,7 @@ paypal.payment.create(create_payment_json, function (error, payment) {
 
 }
 
-const paypalSuccess=async (req, res) => {
-  let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
-  
- let   cartCount = await userHelpers.getCartCount(req.session.user._id);
-  let userId=req.query.user
- 
-  let orderId=req.query.order
-  const payerId = req.query.PayerID;
-  const paymentId = req.query.paymentId;
-
-  const execute_payment_json = { 
-    "payer_id": payerId, 
-    "transactions": [{
-        "amount": {
-            "currency": "USD",
-            "total":req.session.paypalTotal
-        }
-    }]
-  };
-
-  paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
-    if (error) {
-        console.log(error.response);
-        throw error;
-    } else {
-        console.log(JSON.stringify(payment));
-
-        userHelpers.changeOrderStatusOnline(orderId).then((data)=>{})
-        userHelpers.getOrderProductQuantity(orderId).then((data) => { 
-          data.forEach((element) => {
-            userHelpers.updateStockDecrease(element);
-          });
-        });
-
-        userHelpers.getuserDetails(req.session.user._id).then((user)=>{
-          if(user.coopon){
-      
-            offerHelper.cooponObjectRemovelUser(user._id).then((data)=>{
-            })
-            .catch((err)=>{console.log(err);})
-        
-          }
-      
-         })
-      
-      
-        userHelpers.deleteCart(req.session.user._id).then((data)=>{})  
-         res.render('user/order-placed', {noheader: true,cartCount,listCount,
-         userLogged:true}) 
-          
-        
-    }
-});
-}
+// const paypalSuccess=
 
 const orderPlaced= async(req, res) => {
   let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
@@ -980,7 +934,6 @@ module.exports={
     placeOrder,
     verifyPayment,
     payPal,
-    paypalSuccess,
     orderPlaced,
     orders,
     viewOrderProducts,
