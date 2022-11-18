@@ -61,16 +61,16 @@
                             <span class="sr-only">Toggle mobile menu</span>
                             <i class="icon-bars"></i>
                         </button>
-                        
-                        <a href="index.html" class="logo">
+                        <a href="/"> 
+                    <img style="width:15rem;" src="/images/New folder/6921eda13fc530902084fba4a488ff0d.jpg" >
 
-                           <a href="/"> <h4>MobileMart</h4></a> 
+                           </a> 
                           
                         </a>
                     </div><!-- End .header-left -->
 
              
-{{!-- ----------------------------------------------------search----------------------------------------------------------------- --}}
+      {{!-- ----------------------------------------------------search----------------------------------------------------------------- --}}
 
 
                     <div class="col-5 " style="margin: auto;float: inline-end;">
@@ -99,11 +99,7 @@
 
                     <div class="header-right">
                           {{!-- <div class="float-right">login</div> --}}
-                          {{#if userLogged}}
-                              <a class="d-none d-lg-block" href="/logout">Log out </a>
-                              {{else}} 
-                                <a class="d-none d-lg-block" href="/login">Sign in / Sign up</a>                           
-                            {{/if}}
+                       
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <ul class="compare-products">
@@ -122,6 +118,17 @@
                                     <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i class="icon-long-arrow-right"></i></a>
                                 </div>
                             </div><!-- End .dropdown-menu -->
+                        </div><!-- End .compare-dropdown -->
+
+                        
+
+                            <div class="wishlist d-none d-lg-block mt-2">
+                            <a href="/user-account">
+                                <div class="icon">
+                                  <i class="fa fa-user-o"></i>
+                                </div>
+                                <p>Account</p>
+                            </a>
                         </div><!-- End .compare-dropdown -->
 
                         <div class="wishlist d-none d-lg-block mt-2">
@@ -173,18 +180,33 @@
                     <div class="header-center">
                         <nav class="main-nav">
                             <ul class="menu sf-arrows">
-                                <li class="megamenu-container active">
-                                    <a href="/" class="sf-with-ul">Home</a>
 
+                                 {{#if home}}
+                                  <li class="megamenu-container active">
+                                    <a href="/" >Home</a>
+                                  {{else}}
+                                  <li class="megamenu-container">
+                                    <a href="/" >Home</a>
+                                  {{/if}}          
                                  
                                 </li>
-                                <li>
-                                    <a href="/orders" class="sf-with-ul">Orders</a>
+                                {{#if order}}
+                                <li class="megamenu-container active">
+                                    <a href="/orders" >Orders</a>
+                                    {{else}}
+                                    <li class="megamenu-container">
+                                    <a href="/orders" >Orders</a>
+                                    {{/if}}
 
                                    
                                 </li>
-                                <li>
-                                    <a href="/view-products/?page=1" class="sf-with-ul">Product</a>
+                                {{#if viewProduct}}
+                                <li class="megamenu-container active">
+                                    <a href="/view-products/?page=1" >Product</a>
+                                    {{else}}
+                                <li class="megamenu-container">
+                                    <a href="/view-products/?page=1" >Product</a>
+                                    {{/if}}
 
                                   
                                 </li>
@@ -202,8 +224,12 @@
                                 <a href="#">Links</a>
                                 <ul>
                                     <li>
-                                        <div c>
-                                            <a href="/user-account">Account</a>
+                                        <div >
+                                               {{#if userLogged}}
+                              <a class="d-none d-lg-block" href="/logout">Log out </a>
+                              {{else}} 
+                                <a class="d-none d-lg-block" href="/login">Sign in / Sign up</a>                           
+                            {{/if}}
                                            
                                         </div>
                                     </li>

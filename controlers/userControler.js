@@ -7,13 +7,11 @@ const offerHelper=require('../helpers/adminOfferManagement')
 const wishlistCartManagement= require("../helpers/wishlistAndCartmanagement")
 require('dotenv').config();
 
-// let ACCOUNT_SID = process.env.ACCOUNT_SID;
-// let AUTH_TOKEN =process.env.AUTH_TOKEN;
-// let SERVICE_ID =process.env.SERVICE_ID;
 
-let SERVICE_ID="VAd5c4c9e1d4bbe68e30f51c1c31712853"
-let ACCOUNT_SID="ACe365b74f7a9b1eb0c7537de81e471687"
-let AUTH_TOKEN="c25e661c6e9ae2926ed3bc87bd76c4a3"
+
+let SERVICE_ID=process.env.SERVICE_ID
+let ACCOUNT_SID=process.env.ACCOUNT_SID
+let AUTH_TOKEN=process.env.AUTH_TOKEN
 
 
 
@@ -34,12 +32,15 @@ const verifyLogin = (req, res, next) => {
     if (req.session.user) {
       next();
     } else {
-      res.redirect("/login");
+      res.redirect("/login"); 
     }
   };
 
 const home=async function (req, res, next) {
 
+  let brand = await productHelpers.getAllBrand();
+  let newArrival= await productHelpers.newArrival()
+   let bestSeller=await productHelpers.bestSeller()
 
     if (req.session.user) {
   
@@ -47,41 +48,40 @@ const home=async function (req, res, next) {
     
    let   cartCount = await userHelpers.getCartCount(req.session.user._id);
   
-   let brand = await productHelpers.getAllBrand();
+ 
+ 
+   
+
    productHelpers.getAllproducts().then((products) => {
-     let person={
-       name:'vishnu',
-       place:'malappuram'
-     }
-     
-     res.render("user/home", {
+
+     res.render("user/home3", {
+       home:true,
        cartCount, 
-       products,
-       noheader: true,
+       products,  
+       noheader: true, 
        userLogged:true,
        brand,
        listCount,
-       person
-     });
+       newArrival,
+       bestSeller
+     });  
    });
     }else{  
   
-  
-    let brand = await productHelpers.getAllBrand();
+
     productHelpers.getAllproducts().then((products) => {
-      let person={
-        name:'vishnu',
-        place:'malappuram'
-      }
-      res.render("user/home", {
+  
+      res.render("user/home3", {
+        home:true,
         products,
         noheader: true,
         brand,
-        person
-      });
-    });
-    }
-  
+        newArrival,
+        bestSeller
+      });  
+    });  
+    }  
+   
   }
 
 
@@ -636,22 +636,23 @@ const verifyPayment=async(req,res)=>{
  
  
  } 
-
- const payPal=(req, res) => {
-  console.log(req.body);
- let {total,user,order}=req.body
- req.session.paypalTotal=total
+// ---------------------------------------------------------------------------------------------------------------------------
 
 
- 
+
+const payPal=(req, res) => {
+
+  let {total,user,order}=req.body
+  req.session.paypalTotal=total
+  
   const create_payment_json = {
     "intent": "sale",
     "payer": { 
         "payment_method": "paypal"
     },
     "redirect_urls": {
-        "return_url": "http://localhost:3000/success?order="+ order +'&?user='+ user,
-        "cancel_url": "http://localhost:3000/cancel"
+        "return_url": "http://mobilemart.ml/success?order="+ order +'&?user='+ user,
+        "cancel_url": "http://moilemart.ml/cancel"
     },
     "transactions": [{
         "amount": {
@@ -660,11 +661,12 @@ const verifyPayment=async(req,res)=>{
         },
         "description": "Hat for the best team ever"
     }] 
+    
 };
 
 paypal.payment.create(create_payment_json, function (error, payment) {
   if (error) {
-      // throw error;
+      throw error;
   } else {
       for(let i = 0;i < payment.links.length;i++){
         if(payment.links[i].rel === 'approval_url'){
@@ -674,9 +676,68 @@ paypal.payment.create(create_payment_json, function (error, payment) {
   }  
 });  
 
-}
+};
 
-// const paypalSuccess=
+const paypalSuccess=async (req, res) => {
+
+  let listCount
+  let   cartCount
+  if(req.session.user){
+      listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
+  
+      cartCount = await userHelpers.getCartCount(req.session.user._id);
+  }
+
+  let userId=req.query.user
+ 
+  let orderId=req.query.order
+  const payerId = req.query.PayerID;
+  const paymentId = req.query.paymentId;
+
+  const execute_payment_json = { 
+    "payer_id": payerId, 
+    "transactions": [{
+        "amount": {
+            "currency": "USD", 
+            "total":req.session.paypalTotal
+        }
+    }]
+  };
+
+  paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+    if (error) {
+        console.log(error.response);
+         throw error;
+    } else {
+        console.log(JSON.stringify(payment));
+
+        userHelpers.changeOrderStatusOnline(orderId).then((data)=>{})
+        userHelpers.getOrderProductQuantity(orderId).then((data) => { 
+          data.forEach((element) => {
+            userHelpers.updateStockDecrease(element);
+          });
+        });
+ 
+        userHelpers.getuserDetails(req.session.user._id).then((user)=>{
+          if(user.coopon){
+      
+            offerHelper.cooponObjectRemovelUser(user._id).then((data)=>{
+            })
+            .catch((err)=>{console.log(err);})
+        
+          }
+      
+         })
+      
+      
+        userHelpers.deleteCart(req.session.user._id).then((data)=>{})  
+         res.render('user/order-placed', {noheader: true,cartCount,listCount,
+         userLogged:true}) 
+          
+        
+    }
+});
+}
 
 const orderPlaced= async(req, res) => {
   let  listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
@@ -698,6 +759,7 @@ const orders= async (req, res) => {
  let   cartCount = await userHelpers.getCartCount(req.session.user._id);
   let orders = await userHelpers.getUserOders(req.session.user._id);
   res.render("user/orders", {
+    order:true,
     noheader: true,
     userLogged:true,
     user: req.session.user,
@@ -934,6 +996,7 @@ module.exports={
     placeOrder,
     verifyPayment,
     payPal,
+    paypalSuccess,
     orderPlaced,
     orders,
     viewOrderProducts,

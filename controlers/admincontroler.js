@@ -22,7 +22,9 @@ const verify = function (req, res, next) {
 };
 
 const homePost=function (req, res, next) {
+  console.log( credential.email );
   if (
+    
     req.body.email == credential.email &&
     req.body.password == credential.password
   ) {
@@ -50,6 +52,16 @@ const home=async function(req, res, next) {
     let returnCount=await userHelpers.getReturnCounts()
     let response=await graphHelpers.getTotalSalesGraph()
      let {dailySale,monthSales,yearlySale}=response
+
+     console.log("dailySale");
+     console.log("monthSales");
+     console.log("yearlySale");
+     console.log(dailySale);
+     console.log(monthSales);
+     console.log(yearlySale);
+
+
+
     userHelpers.getAllusers().then((products) => {
       graphHelpers.getDailyPaymentSales().then(({razorpay,paypal,COD})=>{
         res.render("admin/dashboard", { admin: true, noheader:true,dailySale,monthSales,getAllPaymentTotalSale,todaOrderCount,userCount,

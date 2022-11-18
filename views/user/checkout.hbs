@@ -204,12 +204,12 @@ body {
                             {{/if}}
 
                             <p id="cooponMessage" style="color: red;display:none"></p>
-                        <form id="coopon-form"> 
+                         <mj id="coopon-form"> 
             		
-        			    <input type="text" name="coopon" class="form-control" value="{{user.coopon.code}}" placeholder="Coopon" required>
+        			     <input type="text" name="coopon" class="form-control" value="{{user.coopon.code}}" placeholder="Coopon" required>
 
                          {{#if user.coopon}}
-                        <a href="/removeCoupun" class="btn btn-outline-primary btn-rounded mt-1"    >Remove Coupon</a>
+                          <a href="/removeCoupun" class="btn btn-outline-primary btn-rounded mt-1"    >Remove Coupon</a>
                         
 
                          {{else}}

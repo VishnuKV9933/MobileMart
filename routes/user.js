@@ -11,6 +11,7 @@ orderInvoice,cancelOrder,orderReturn,returnOrderPost,addAddress,addAddressPost,d
 addAddress2,addAddress2Post,deleteAddress2,editAddress2,editAddress4,editUserDetails,editUserDetailsPost,changePassword,
 changePasswordPost,addCartWishlist}=require("../controlers/userControler")
 
+
 const paypal = require('paypal-rest-sdk');
 const { response } = require("../app");
 
@@ -52,66 +53,7 @@ router.post('/verify-payment',verifyPayment)
 
 router.post('/pay',payPal);
  
-router.get('/success',async (req, res) => {
-
-  let listCount
-  let   cartCount
-  if(req.session.user){
-      listCount=await wishlistCartManagement.wishListCount(req.session.user._id)
-  
-      cartCount = await userHelpers.getCartCount(req.session.user._id);
-  }
-
-  let userId=req.query.user
- 
-  let orderId=req.query.order
-  const payerId = req.query.PayerID;
-  const paymentId = req.query.paymentId;
-
-  const execute_payment_json = { 
-    "payer_id": payerId, 
-    "transactions": [{
-        "amount": {
-            "currency": "USD", 
-            "total":req.session.paypalTotal
-        }
-    }]
-  };
-
-  paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
-    if (error) {
-        console.log(error.response);
-        // throw error;
-    } else {
-        console.log(JSON.stringify(payment));
-
-        userHelpers.changeOrderStatusOnline(orderId).then((data)=>{})
-        userHelpers.getOrderProductQuantity(orderId).then((data) => { 
-          data.forEach((element) => {
-            userHelpers.updateStockDecrease(element);
-          });
-        });
- 
-        userHelpers.getuserDetails(req.session.user._id).then((user)=>{
-          if(user.coopon){
-      
-            offerHelper.cooponObjectRemovelUser(user._id).then((data)=>{
-            })
-            .catch((err)=>{console.log(err);})
-        
-          }
-      
-         })
-      
-      
-        userHelpers.deleteCart(req.session.user._id).then((data)=>{})  
-         res.render('user/order-placed', {noheader: true,cartCount,listCount,
-         userLogged:true}) 
-          
-        
-    }
-});
-});  
+router.get('/success',paypalSuccess);  
  
 router.get("/order-placed",orderPlaced);
 
@@ -182,7 +124,8 @@ console.log(products);
   res.render("user/wishlist",{noheader: true, userLogged:true,products,cartCount,listCount})
 })
 
-router.get('/add-wishlist/:id',(req,res)=>{
+router.get('/add-wishlist/:id',verifyLogin,(req,res)=>{
+
   let productId=req.params.id
   let userId=req.session.user._id
  
@@ -206,9 +149,9 @@ router.get("/add-to-cart-wishlist/:id", (req, res) => {
       res.json({ status: false });
     }
 
-
+   
   });
-
+ 
 });
 
 router.get('/delete-from-WishList',(req,res)=>{
@@ -374,49 +317,6 @@ router.get("/logout", (req, res) => {
 });
 
 
-router.get('/work',(req,res)=>{
-
-
-  let limit=parseInt(4)
-  let page=parseInt(3)
-  
-  let startIn=(page-1)*limit
-  let endIn=(page)*limit
-  let user=[
-      {id:1,name:"user_1"},
-      {id:2,name:"user_2"},
-      {id:3,name:"user_3"},
-      {id:4,name:"user_4"},
-      {id:5,name:"user_5"},
-      {id:6,name:"user_6"},
-      {id:7,name:"user_7"},
-      {id:8,name:"user_8"},
-      {id:9,name:"user_9"},
-      {id:10,name:"user_10"},
-    ]
-
-      let result={}
-     result.result=user.slice(startIn,endIn)
-  if(endIn<user.length){ 
-    result.next={
-      page:page+1,
-      limit:limit
-    }}
-
-   if(startIn>0){ 
-    result.previous={
-      page:page-1,
-      limit:limit
-    }}
-     console.log(startIn);
-
-     console.log(endIn);
-
-
-  console.log(result);
-
-  res.render('user/invoice')
-})
 module.exports = router;
 
 

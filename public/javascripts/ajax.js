@@ -22,7 +22,7 @@ function addToCart(proid){
            }
             
         }
-    })
+    })                    
 
 }
 
@@ -319,29 +319,6 @@ $.ajax({
     })
        
 
-
-    
-// function returnOrder(orderId){
-    
-//     $.ajax({
-//         url:"/order-return/",
-//         data:{
-//             orderId:orderId
-//         },
-//         method:"post",
-        
-//         success:(response)=>{
-//             if(response.status){
-//                 alert('ordered cancelled')
-//                 location.reload()
-//             }
-      
-//         }
-//     })
-// }
-
-
-
    function changeStatus(orderId){
   
     console.log(orderId);
@@ -396,7 +373,6 @@ $.ajax({
         buttons: true,
         dangerMode: true,
     })
-
         .then((willDelete) => {
             if (willDelete) {
           
@@ -406,7 +382,7 @@ $.ajax({
                         orderId:orderId
                     },
                     method: 'post',
-                    success: (response) => {
+                    success: (response) => {    
                  
                          swal("Poof! Your order has been cancelled!", {
                             icon: "success",
@@ -426,28 +402,6 @@ $.ajax({
             }
         });
 }
-
-//--------------------------------------------------------------------------------
-
-// function sendData(e){
-//     let searchReaults=document.getElementById('searchReaults')
-//     fetch('getProducts',{
-//         method:'post',
-//         headers:{'Content-type':'application/json'},
-//         body:JSON.stringify({'payload':e.value})
-//     }).then(res => res.json()).then(data =>{
-//         let payload=data.payload
-//         console.log('hai');
-//         console.log(payload);
-//         searchReaults.innerHTML=""
-//         if(payload.length < 1){
-//             searchReaults.innerHTML='<p>sorry nouthing found</p>'
-//              return;
-//         }
-
-//     })
-// }
-
 
 
 

@@ -84,11 +84,150 @@ getAllproducts:()=>{
                 }
             }  
     ]).toArray().then((data)=>{
-        console.log(data);
-        console.log('data');
         resolve(data)
     })
     })
+},
+
+newArrival:()=>{
+    return new Promise(async(resolve,reject)=>{
+ 
+
+        db.get().collection(PRODUCT_COLLLECTION).aggregate([
+
+            {$lookup:{
+              from:collection.CATEGORY_COLLECTION,
+              localField:'brandId',
+              foreignField:'_id',
+              as:'brand'
+
+            }},
+            {
+                $project:{
+                    name:1,
+                    price:1,
+                    reviews:1,
+                    stock:1,
+                    discription:1,
+                    visiblity:1,
+                    img:1,
+                    offer:1,
+                    brandOffer:1,
+                    originalPrice:1,
+                    brandOfferPercent:1,
+                    productOfferPercent:1,
+                    highOfferPercent:1,
+                    productOffer:1,
+                    brandName:{$arrayElemAt:['$brand.brand',0]}
+                }
+            },
+            {
+                $sort:{_id:-1}
+            },
+            {
+                $limit:10
+            }  
+    ]).toArray().then((data)=>{   
+        resolve(data)
+    })
+    })
+},
+
+bestSeller:()=>{
+    return new Promise(async(resolve,reject)=>{
+
+  let products=await  db.get().collection(collection.ORDER_COLLECTION).aggregate([
+    {$unwind:"$products"},
+  {
+    $project:
+    {
+        product:"$products.item",
+        quantity:"$products.quantity"
+    }
+  },
+  {
+    $group:{
+        _id:"$product",
+        quantity:{$sum:"$quantity"}
+       
+    }
+  },{
+    $sort:{quantity:-1}
+  },
+  {
+    $lookup:{
+        from:collection.PRODUCT_COLLLECTION,
+        localField:'_id',
+        foreignField:'_id',
+        as:'products'
+
+    }
+  },
+  {
+    $project:
+    {
+        quantity:1,
+        product:{$arrayElemAt:['$products',0]} 
+    }
+  }, 
+  {
+    $project:{
+        quantity:1,
+        _id:"$product._id",
+        name:"$product.name",
+        price:"$product.price",
+        reviews:"$product.reviews",
+        stock:"$product.stock",
+        discription:"$product.discription",
+        visiblity:"$product.visiblity",
+        img:"$product.img",
+        offer:"$product.offer",
+        brandOffer:"$product.brandOffer",
+        originalPrice:"$product.originalPrice",
+        brandOfferPercent:"$product.brandOfferPercent",
+        productOfferPercent:"$product.productOfferPercent",
+        highOfferPercent:"$product.highOfferPercent",
+        productOffer:"$product.productOffer",
+        brand:"$product.brandId"
+    } 
+},
+ {$lookup:{
+    from:collection.CATEGORY_COLLECTION,
+    localField:'brand',
+    foreignField:'_id',
+    as:'brand'
+  }},
+  {
+    $project:{
+        quantity:1,
+        name:1,
+        price:1,
+        reviews:1, 
+        stock:1,
+        discription:1,
+        visiblity:1,
+        img:1,
+        offer:1,
+        brandOffer:1,
+        originalPrice:1,
+        brandOfferPercent:1, 
+        productOfferPercent:1,
+        highOfferPercent:1,
+        productOffer:1,
+        brandName:{$arrayElemAt:['$brand.brand',0]}
+    }
+  },
+  {
+    $limit:7
+  }
+
+]).toArray()
+  console.log("bestseller");
+  console.log(products); 
+  console.log("bestseller");
+  resolve(products) 
+}) 
+    
 },
 
 deleteProduct:(id)=>{
@@ -127,9 +266,7 @@ getProductDetails:(id)=>{
               brandName:{$arrayElemAt:['$brand.brand',0]},
               brandId:{$arrayElemAt:['$brand._id',0]}
           }
-      }  
-       
-       
+      }, 
        
     ]).toArray().then((product)=>{
 
@@ -199,11 +336,11 @@ addBrand:(brandname)=>{
         db.get().collection(collection.CATEGORY_COLLECTION).insertOne(brandname).then((data)=>{
             
          resolve(data)
-        })
+        }) 
     }
     })
 
-},
+}, 
 
 getAllBrand:()=>{
     return new Promise(async(resolve,reject)=>{
