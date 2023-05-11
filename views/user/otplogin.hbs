@@ -1,29 +1,26 @@
-<section class="vh-100" style="background-color: #508bfc;">
+<section class="vh-100" style="background-color: #F5F5F5;">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+        <div class="card shadow-sm rounded-lg" style="background-color: #FFFFFF;">
           <div class="card-body p-5 text-center">
 
             <h3 class="mb-5">OTP Login</h3>
 
-             <form action="/otpverify2" >
-            <div class="form-outline mb-4">
-              <input type="tel" id="typeEmailX-2" class="form-control form-control-lg" name="mobile"/>
-              <label class="form-label" for="typeEmailX-2">Mobile Number</label>
-            </div>
+            <form action="/otpverify2">
+              <div class="form-outline mb-4">
+                <input type="tel" id="typeEmailX-2" class="form-control form-control-lg" name="mobile" />
+                <label class="form-label" for="typeEmailX-2">Mobile Number</label>
+              </div>
 
-            <button type="submit" class="btn btn-outline-primary btn-sm ">Send OTP </button>
+              <button type="submit" class="btn btn-primary btn-sm rounded-pill" style="background-color: #2E8B57; color: #FFFFFF;">Send OTP</button>
             </form>
-            {{#if permissionMessage}}
-               <p style="color:red;">{{permissionMessage}}</p>
-                {{/if}}
 
-              
-                
+            {{#if permissionMessage}}
+            <p style="color: red;">{{permissionMessage}}</p>
+            {{/if}}
 
             <hr class="my-4">
-
 
           </div>
         </div>
@@ -31,4 +28,33 @@
     </div>
   </div>
 </section>
+
+<style>
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    0% {
+      transform: translateY(10px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scale-in {
+    0% {
+      transform: scale(0.8);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+</style>
 

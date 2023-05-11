@@ -9,7 +9,7 @@ const {verifyLogin,home,signup,signupPost,login,loginPost,otplogin,verifiOtp2,ve
 removeProduct,checkOut,applyCoupon,removeCoupun,placeOrder,verifyPayment,payPal,paypalSuccess,orderPlaced,orders,viewOrderProducts,
 orderInvoice,cancelOrder,orderReturn,returnOrderPost,addAddress,addAddressPost,deteteAddress,editAddress,editAddress3,userAccount,
 addAddress2,addAddress2Post,deleteAddress2,editAddress2,editAddress4,editUserDetails,editUserDetailsPost,changePassword,
-changePasswordPost,addCartWishlist}=require("../controlers/userControler")
+changePasswordPost,addCartWishlist,newPassword}=require("../controlers/userControler")
 
 
 const paypal = require('paypal-rest-sdk');
@@ -27,7 +27,7 @@ router.post("/login",loginPost);
 
 router.get("/otplogin",otplogin);
 
-router.get("/otpverify2",verifiOtp2);
+router.get("/otpverify2",verifiOtp2); 
 
 router.get("/otpverify",verifyOTP);
 
@@ -37,7 +37,7 @@ router.get("/cart",verifyLogin,cart);
 
 router.post("/change-product-quantity",verifyLogin,changeProductQuantity);
 
-router.get("/add-to-cart/:id",verifyLogin,addToCart);
+router.get("/add-to-cart/:id",addToCart);
 
 router.post("/remove-product",removeProduct);
 
@@ -99,14 +99,7 @@ router.get('/change-password',verifyLogin,changePassword)
 
 router.post('/change-password',changePasswordPost)
 
-router.post('/new-password',verifyLogin,(req,res)=>{
-
-  userHelpers.changePassword(req.body).then((data)=>{
-    
-    res.redirect("/user-account");
-  })
-
-})
+router.post('/new-password',verifyLogin,newPassword)
 
 router.get('/add-cartWishlist/:id',addCartWishlist)
 
@@ -134,7 +127,7 @@ router.get('/add-wishlist/:id',verifyLogin,(req,res)=>{
 }) 
 
 
-router.get("/add-to-cart-wishlist/:id", (req, res) => {
+router.get("/add-to-cart-wishlist/:id",(req, res) => {
   console.log("------------1-------------");
   console.log(req.session.user._id);
   console.log(req.params.id);

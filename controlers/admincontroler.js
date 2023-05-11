@@ -96,6 +96,7 @@ const addProductsGet=function (req, res) {
 const addProductsPost=(req, res) => {
   console.log("post");
   const files = req.files
+  console.log(files);
     const file = files.map((file)=>{
         return file
     })
@@ -149,12 +150,13 @@ const editProductsPost=async(req, res) => {
 const productList = async (req, res) => {
   await productHelpers.getAllproducts().then((products) => {
     res.render("admin/products-list", { products, admin: true });
-  });
-}
+  }); 
+} 
 
 const deleteProduct=(req, res) => {
   let id = req.params.id;
-  productHelpers.deleteProduct(id).then((response) => { 
+
+  userHelpers.deleteProduct(id).then((response) => { 
     res.redirect("/admin/products-list");
   });
 }

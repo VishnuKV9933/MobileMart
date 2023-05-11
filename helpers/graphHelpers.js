@@ -255,8 +255,8 @@ module.exports = {
           {
             $unwind: "$products",
           },
-
-          {
+    
+          { 
             $lookup: {
               from: collection.PRODUCT_COLLLECTION,
               localField: "products.item",

@@ -3,14 +3,14 @@ var db=require('../configuration/connection')
 
 var objectId=require('mongodb').ObjectId
 const collection=require('../configuration/collection');
-const { response } = require('../app');
+// const { response } = require('../app');
 const { PRODUCT_COLLLECTION, CART_COLLECTION } = require('../configuration/collection');
 
 
 // var collection=require('../configuration/connection')
 
 
-module.exports={
+module.exports={  
 
 addProduct:(product)=>{
 
@@ -224,28 +224,20 @@ bestSeller:()=>{
 ]).toArray()
   console.log("bestseller");
   console.log(products); 
-  console.log("bestseller");
+  console.log("bestseller"); 
   resolve(products) 
-}) 
-    
-},
+})  
+       
+},  
 
-deleteProduct:(id)=>{
-    return new Promise((resolve,reject)=>{
-        console.log(ObjectId(id));
-        db.get().collection(collection.PRODUCT_COLLLECTION).deleteOne({_id:ObjectId(id)}).then((response)=>{       
-            console.log(response);
-            resolve(response)
-        })
-    })
-},
-getProductDetails:(id)=>{
+
+getProductDetails:(id)=>{ 
     
     return new Promise(async(resolve,reject)=>{
        await db.get().collection(collection.PRODUCT_COLLLECTION).aggregate([{$match:{_id:ObjectId(id)}},
-       
-       {$lookup:{
-        from:collection.CATEGORY_COLLECTION,
+        
+       {$lookup:{ 
+        from:collection.CATEGORY_COLLECTION, 
         localField:'brandId',
         foreignField:'_id',
         as:'brand'

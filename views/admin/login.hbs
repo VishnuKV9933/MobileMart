@@ -1,5 +1,5 @@
 
- <section class="vh-100" style="background-color: #508bfc;">
+ <section class="vh-100" style="background-color: #e5eeff;">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -8,7 +8,7 @@
 
             <form action="/admin" method="post">
 
-            <h3 class="mb-5">Admin Login</h3>
+            <h3 class="mb-5" style="color: #2E8B57; font-family: 'Arial', sans-serif; font-weight: bold; animation: fade-in 1s ease-in-out;">Admin Login</h3>
 
             <div class="form-outline mb-4">
               <input type="email" id="typeEmailX-2" class="form-control form-control-lg" name="email" />
@@ -24,7 +24,7 @@
             
                         
                         
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+            <button class="btn btn-primary btn-lg btn-block rounded" type="submit" style="background-color: #2E8B57; border-color: #2E8B57; color: #FFFFFF; animation: scale-in 1s ease-in-out;">Login</button>
              
             <hr class="my-4">
 
@@ -47,3 +47,31 @@
     </div>
   </div>
 </section>
+<style>
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    0% {
+      transform: translateY(10px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scale-in {
+    0% {
+      transform: scale(0.8);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+</style>

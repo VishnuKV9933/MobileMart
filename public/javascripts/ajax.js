@@ -1,19 +1,25 @@
 
-function addToCart(proid){
 
+function addToCart(proid){
+    
     $.ajax({
         url:"/add-to-cart/"+proid,
         method:"get",
         
         success:(response)=>{
+            console.log("response");
 
-           if(response.status){
+            if(response.logout){
+                console.log("response1");
+                swal("Please sign in first")
+
+            }else if(response.status){
             swal("Good job!", "Product added to cart", "success");
       
             let count=$("#cart-count").html()
-            count=parseInt(count)+1
+            count=parseInt(count)+1  
             $("#cart-count").html(count)
-          
+           
            }
            else
            {
@@ -21,7 +27,7 @@ function addToCart(proid){
             swal("Out of stock!");
            }
             
-        }
+        } 
     })                    
 
 }
@@ -110,7 +116,7 @@ function changeProductQuantity(cartId,proId,userId,count){
 
             let totalPrice=document.getElementById('total'+proId).innerHTML=price*quantity
 
-             document.getElementById('grandTotal').innerHTML=response.total[0].grandTotal
+             document.getElementById('grandTotal').innerHTML="₹"+response.total[0].grandTotal
             console.log(totalPrice);
         }else{
             document.getElementById('outOfStock'+proId).style.display='block'
