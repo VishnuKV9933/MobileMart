@@ -114,7 +114,7 @@
                                     <div class="product-details-action">
                                         {{#if userLogged}}
                                         <button style="font-size: 20px;color:white;font-weight: bold;background-color:rgb(43, 43, 144)" 
-                                           onmouseover="this.style.fontWeight='bold'" onmouseout="this.style.fontWeight='normal'"  class="butt-cart"  >add to cart</button>
+                                         onclick="addToCart('{{product._id}}')"  onmouseover="this.style.fontWeight='bold'" onmouseout="this.style.fontWeight='normal'"  class="butt-cart"  >add to cart</button>
                                         {{!-- <button onclick="addToCart('{{product._id}}')" class="btn-product btn-cart"><span>cart</span></button> --}}
 
                                         <div class="details-action-wrapper">
