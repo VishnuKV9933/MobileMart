@@ -233,7 +233,7 @@ editProductOffer:(details)=>{
                 price:price2
 
             }}).then((data)=>{
-                console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+              
                 resolve()})
     
             }
@@ -248,7 +248,7 @@ editProductOffer:(details)=>{
                 highOfferPercent:productOffer,
                 price:price
             }}).then((data)=>{
-                console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+              
                 resolve()})
         }
 
@@ -314,13 +314,13 @@ return new Promise(async(resolve,reject)=>{
    let coopon = await db.get().collection(collection.COOPON_COLLECTION).findOne({code:{'$regex' : `^${details.code}$`, '$options' : 'i'}})
 console.log(coopon);
    if(coopon){
-    console.log('-----------f1----------------f1----------');
+   
       response.status=false
       response.message="coopon already in use"
       resolve(response)
 
    }else{
-    console.log('-----------f12----------------f12----------');
+ 
     db.get().collection(collection.COOPON_COLLECTION).insertOne(details).then((data)=>{
         response.status=true
          response.message="Coopon created successfully"

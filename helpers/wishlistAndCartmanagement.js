@@ -43,8 +43,7 @@ addToWishlist:(productId,userId)=>{
                 db.get()
               .collection(collection.WISHLIST_COLLECTION)
               .insertOne(listObj).then((data)=>{
-                console.log(data);
-                console.log('data');
+
                 reslolve(data)
               })
 

@@ -322,8 +322,8 @@ module.exports = {
       }
     ]).toArray().then((data)=>{
 
-        console.log(data[0].count);
-        resolve(data[0].count)
+     
+        resolve(data[0]?.count)
       })
 
     })
@@ -351,7 +351,7 @@ module.exports = {
     ]).toArray().then((data)=>{
 
    
-        resolve(data[0].totalAmount)
+        resolve(data[0]?.totalAmount)
       })
 
     })
@@ -400,8 +400,7 @@ module.exports = {
         ])
         .toArray()
         .then((data) => {
-          console.log(data);
-          console.log("(data[0]) ");
+    
           resolve(data);
         });
     });
